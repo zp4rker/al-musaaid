@@ -4,10 +4,9 @@
 *.iml
 target/
 build/
-gradle.properties
 .gradle/
 gradle/
-gradlew.*
+gradlew.bat
 gradlew
 
 # project #
