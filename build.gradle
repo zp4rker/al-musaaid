@@ -1,0 +1,24 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+}
+
+group 'com.zp4rker'
+version '0.0.1-alpha'
+
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://maven.zp4rker.com"
+    }
+    jcenter()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "com.zp4rker:disbot:1.0.1-release"
+    implementation "net.dv8tion:JDA:4.2.0_217"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = 11
+}
