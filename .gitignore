@@ -9,3 +9,6 @@ gradle.properties
 gradle/
 gradlew.*
 gradlew
+
+# project #
+logs/
