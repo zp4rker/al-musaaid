@@ -4,7 +4,10 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '0.0.1-alpha'
+version '0.0.3-alpha'
+
+def disbotVersion = "1.1.4-release"
+def jdaVersion = "4.2.0_217"
 
 repositories {
     mavenCentral()
@@ -17,8 +20,8 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "com.zp4rker:disbot:1.1.1-release"
-    compile("net.dv8tion:JDA:4.2.0_217") {
+    compile "com.zp4rker:disbot:$disbotVersion"
+    compile("net.dv8tion:JDA:$jdaVersion") {
         exclude module: "opus-java"
     }
 }
@@ -34,7 +37,10 @@ shadowJar {
 
     manifest {
         attributes "Main-Class": "com.zp4rker.almusaaid.AlMusaaidKt"
+        attributes "Disbot-Version": disbotVersion
+        attributes "JDA-Version": jdaVersion
     }
 }
+
 
 build.dependsOn "shadowJar"

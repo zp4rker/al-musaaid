@@ -20,7 +20,7 @@ fun main(args: Array<String>) {
 
         activity = Activity.listening("your commands...")
 
-        commands = listOf(object : Command(aliases = arrayOf("test"), ) {
+        commands = listOf(object : Command(aliases = arrayOf("test")) {
             override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
                 channel.sendMessage("You're the best!").queue()
             }
@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
     }
 
     bot.on<ReadyEvent> {
-        println()
+        bot.logger.info("=".repeat(30))
         bot.logger.info("Ready to serve!")
     }
 }
