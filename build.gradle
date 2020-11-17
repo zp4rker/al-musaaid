@@ -8,6 +8,7 @@ version '0.0.1-alpha'
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         url = "https://maven.zp4rker.com"
     }
@@ -16,7 +17,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "com.zp4rker:disbot:1.0.1-release"
+    compile "com.zp4rker:disbot:1.1.1-release"
     compile("net.dv8tion:JDA:4.2.0_217") {
         exclude module: "opus-java"
     }
