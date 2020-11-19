@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '0.0.3-alpha'
+version '0.1.0-alpha'
 
 def disbotVersion = "1.2.1-release"
 def jdaVersion = "4.2.0_217"
@@ -21,6 +21,7 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile "com.zp4rker:disbot:$disbotVersion"
+    compile "org.json:json:20190722"
     compile("net.dv8tion:JDA:$jdaVersion") {
         exclude module: "opus-java"
     }
