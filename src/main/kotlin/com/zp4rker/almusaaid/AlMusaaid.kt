@@ -1,11 +1,9 @@
 package com.zp4rker.almusaaid
 
+import com.zp4rker.almusaaid.http.request
 import com.zp4rker.disbot.API
 import com.zp4rker.disbot.Bot
 import com.zp4rker.disbot.command.Command
-import com.zp4rker.disbot.extenstions.KEmbedBuilder
-import com.zp4rker.disbot.extenstions.embed
-import com.zp4rker.disbot.extenstions.event.expect
 import com.zp4rker.disbot.extenstions.event.on
 import com.zp4rker.disbot.extenstions.separator
 import net.dv8tion.jda.api.entities.Activity
@@ -20,6 +18,9 @@ import net.dv8tion.jda.api.requests.GatewayIntent
  */
 
 fun main(args: Array<String>) {
+    val trelloKey = args[1]
+    val trelloToken = args[2]
+
     val bot = Bot.create {
         name = "Al-Musā'id"
         token = args[0]
@@ -39,5 +40,20 @@ fun main(args: Array<String>) {
     API.on<ReadyEvent> {
         bot.logger.separator()
         bot.logger.info("Ready to serve!")
+    }
+
+    val predicate: (GuildMessageReceivedEvent) -> Boolean = {
+        it.author.isBot && it.message.embeds.isNotEmpty() && it.message.embeds[0].title == "Task Completed"
+    }
+
+    API.on(predicate) {
+        val embed = it.message.embeds[0]
+        val cardId = embed.footer!!.text
+
+        request("PUT", "https://api.trello.com/1/cards/$cardId", mapOf(
+            "key" to trelloKey,
+            "token" to trelloToken,
+            "dueComplete" to false
+        ))
     }
 }
