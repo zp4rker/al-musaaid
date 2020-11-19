@@ -25,7 +25,7 @@ fun main(args: Array<String>) {
 
     val bot = Bot.create {
         name = "Al-Musā'id"
-        version = "0.2.0-alpha"
+        version = Bot::class.java.`package`.implementationVersion
 
         token = args[0]
         prefix = "/"

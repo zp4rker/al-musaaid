@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '0.2.0-alpha'
+version '0.2.1-alpha'
 
 def disbotVersion = "1.2.1-release"
 def jdaVersion = "4.2.0_217"
@@ -38,6 +38,8 @@ shadowJar {
 
     manifest {
         attributes "Main-Class": "com.zp4rker.almusaaid.AlMusaaidKt"
+        attributes "Implementation-Version": project.version
+
         attributes "Disbot-Version": disbotVersion
         attributes "JDA-Version": jdaVersion
     }
