@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '0.1.1-alpha'
+version '0.2.0-alpha'
 
 def disbotVersion = "1.2.1-release"
 def jdaVersion = "4.2.0_217"

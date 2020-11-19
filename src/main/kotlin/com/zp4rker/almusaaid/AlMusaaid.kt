@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
+import org.json.JSONObject
 
 /**
  * @author zp4rker
@@ -20,9 +21,12 @@ import net.dv8tion.jda.api.requests.GatewayIntent
 fun main(args: Array<String>) {
     val trelloKey = args[1]
     val trelloToken = args[2]
+    val trelloWebhook = args[3]
 
     val bot = Bot.create {
         name = "Al-Musā'id"
+        version = "0.2.0-alpha"
+
         token = args[0]
         prefix = "/"
 
@@ -43,15 +47,47 @@ fun main(args: Array<String>) {
     }
 
     val predicate: (GuildMessageReceivedEvent) -> Boolean = {
-        !it.author.isBot && it.message.contentRaw.startsWith("send ")
+        it.message.embeds.isNotEmpty() && it.message.embeds[0].description == "empty data"
+                && arrayOf("Set due date", "Moved card").contains(it.message.embeds[0].title)
     }
 
     API.on(predicate) {
-        val url = it.message.contentRaw.split(" ")[1]
-        val content = it.message.contentRaw.split(" ").drop(2).joinToString(" ")
+        val cardId = it.message.embeds[0].footer!!.text
+        it.message.delete().queue()
 
-        val response = request("POST", url, headers = mapOf("Content-Type" to "application/json"), content = content)
+        val cardData = JSONObject(request("GET", "https://api.trello.com/1/cards/$cardId", mapOf(
+            "key" to trelloKey,
+            "token" to trelloToken,
+            "fields" to "due,name,idList"
+        )))
 
-        if (response.isNotEmpty()) it.channel.sendMessage("```json\n$response```").queue()
+        var embedString = ""
+
+        if (it.message.embeds[0].title == "Set due date") {
+            embedString = """{ "embeds": [{
+                |"author": { "name": "${cardData.getString("name")}" },
+                |"title": "Set due date",
+                |"color": 877490,
+                |"timestamp": "${cardData.getString("due")}",
+                |"footer": { "text": "Due by" }
+            |}] }""".trimMargin()
+        } else if (it.message.embeds[0].title == "Moved card") {
+            val listName = JSONObject(request("GET", "https://api.trello.com/1/lists/${cardData.getString("idList")}", mapOf(
+                "key" to trelloKey,
+                "token" to trelloToken,
+                "fields" to "name"
+            ))).getString("name")
+
+            if (listName != "In Progress") return@on
+
+            embedString = """{ "embeds": [{
+                |"author": { "name": "${cardData.getString("name")}" },
+                |"title": "Moved task to $listName",
+                |"color": 877490,
+                |"timestamp": "${it.message.embeds[0].timestamp}"
+            }] }""".trimMargin()
+        }
+
+        request("POST", trelloWebhook, headers = mapOf("Content-Type" to "application/json"), content = embedString)
     }
 }
