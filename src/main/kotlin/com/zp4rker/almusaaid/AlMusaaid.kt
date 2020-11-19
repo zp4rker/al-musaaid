@@ -43,17 +43,15 @@ fun main(args: Array<String>) {
     }
 
     val predicate: (GuildMessageReceivedEvent) -> Boolean = {
-        it.author.isBot && it.message.embeds.isNotEmpty() && it.message.embeds[0].title == "Task Completed"
+        !it.author.isBot && it.message.contentRaw.startsWith("send ")
     }
 
     API.on(predicate) {
-        val embed = it.message.embeds[0]
-        val cardId = embed.footer!!.text
+        val url = it.message.contentRaw.split(" ")[1]
+        val content = it.message.contentRaw.split(" ").drop(2).joinToString(" ")
 
-        request("PUT", "https://api.trello.com/1/cards/$cardId", mapOf(
-            "key" to trelloKey,
-            "token" to trelloToken,
-            "dueComplete" to false
-        ))
+        val response = request("POST", url, headers = mapOf("Content-Type" to "application/json"), content = content)
+
+        if (response.isNotEmpty()) it.channel.sendMessage("```json\n$response```").queue()
     }
 }
