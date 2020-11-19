@@ -6,7 +6,7 @@ plugins {
 group 'com.zp4rker'
 version '0.0.3-alpha'
 
-def disbotVersion = "1.1.4-release"
+def disbotVersion = "1.2.1-release"
 def jdaVersion = "4.2.0_217"
 
 repositories {
@@ -41,6 +41,5 @@ shadowJar {
         attributes "JDA-Version": jdaVersion
     }
 }
-
 
 build.dependsOn "shadowJar"
