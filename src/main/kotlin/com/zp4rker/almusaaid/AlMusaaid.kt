@@ -4,15 +4,18 @@ import com.zp4rker.almusaaid.http.request
 import com.zp4rker.disbot.API
 import com.zp4rker.disbot.Bot
 import com.zp4rker.disbot.command.Command
+import com.zp4rker.disbot.extenstions.embed
 import com.zp4rker.disbot.extenstions.event.on
 import com.zp4rker.disbot.extenstions.separator
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
 import org.json.JSONObject
+import java.time.OffsetDateTime
 
 /**
  * @author zp4rker
@@ -34,9 +37,10 @@ fun main(args: Array<String>) {
 
         intents = GatewayIntent.ALL_INTENTS
 
-        commands = listOf(object : Command(aliases = arrayOf("test")) {
+        commands = listOf(object : Command(aliases = arrayOf("test2")) {
             override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
-                channel.sendMessage("You're the best!").queue()
+                val embed = embed { title { text = "this is the title" } }
+                channel.sendMessage("```json\n${embed.toData()}```").queue()
             }
         })
     }
@@ -61,16 +65,16 @@ fun main(args: Array<String>) {
             "fields" to "due,name,idList"
         )))
 
-        var embedString = ""
+        var embed: MessageEmbed = embed()
 
         if (it.message.embeds[0].title == "Set due date") {
-            embedString = """{ "embeds": [{
-                |"author": { "name": "${cardData.getString("name")}" },
-                |"title": "Set due date",
-                |"color": 877490,
-                |"timestamp": "${cardData.getString("due")}",
-                |"footer": { "text": "Due by" }
-            |}] }""".trimMargin()
+            embed = embed {
+                author { name = cardData.getString("name") }
+                title { text = "Set due date" }
+                colour = 0x000D63B2
+                timestamp = OffsetDateTime.parse(cardData.getString("due"))
+                footer { text = "Due by" }
+            }
         } else if (it.message.embeds[0].title == "Moved card") {
             val listName = JSONObject(request("GET", "https://api.trello.com/1/lists/${cardData.getString("idList")}", mapOf(
                 "key" to trelloKey,
@@ -80,14 +84,15 @@ fun main(args: Array<String>) {
 
             if (listName != "In Progress") return@on
 
-            embedString = """{ "embeds": [{
-                |"author": { "name": "${cardData.getString("name")}" },
-                |"title": "Moved task to $listName",
-                |"color": 877490,
-                |"timestamp": "${it.message.embeds[0].timestamp}"
-            }] }""".trimMargin()
+            embed = embed {
+                author { name = cardData.getString("name") }
+                title { text = "Moved task to $listName" }
+                colour = 0x000D63B2
+                timestamp = it.message.embeds[0].timestamp
+            }
         }
 
+        val embedString = """{ "embeds": [${embed.toData()}] }"""
         request("POST", trelloWebhook, headers = mapOf("Content-Type" to "application/json"), content = embedString)
     }
 }
