@@ -84,7 +84,6 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
             }
 
             else -> embed() /*{
-                // ill get to this
                 title { text = "Unhandled event" }
                 author { name = action }
                 colour = defaultColour
