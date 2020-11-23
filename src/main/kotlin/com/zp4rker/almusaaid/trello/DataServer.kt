@@ -12,7 +12,8 @@ import java.time.OffsetDateTime
 /**
  * @author zp4rker
  */
-class DataServer(private val trelloKey: String, private val trelloToken: String, private val channelId: Long): Thread() {
+class DataServer(private val trelloKey: String, private val trelloToken: String, private val channelId: Long) :
+    Thread() {
 
     private val serverSocket = ServerSocket(49718)
     var running = true
@@ -40,21 +41,54 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
         val json = JSONObject(data)
 
         val action = json.getJSONObject("action").getJSONObject("display").getString("translationKey")
+        val actionDate = OffsetDateTime.parse(json.getComplex("action:date").toString())
+        val cardName = json.getComplex("action:data:card:name").toString()
+        val defaultColour = 0x000D63B2
 
         val embed = when (action.substring(7)) {
+            "create_card" -> embed {
+                title { text = "Added task to ${json.getComplex("action:data:list:name")}" }
+                author { name = cardName }
+                colour = defaultColour
+                timestamp = actionDate
+            }
+
+            "move_card_from_list_to_list" -> {
+                if (json.getComplex("action:data:list:name") != "In Progress") embed()
+                else embed {
+                    title { text = "Moved task to In Progress" }
+                    author { name = cardName }
+                    colour = defaultColour
+                    timestamp = actionDate
+                }
+            }
+
+            "added_a_due_date" -> embed {
+                title { text = "Set due date" }
+                author { name = cardName }
+                colour = defaultColour
+
+                val cardData = CardData.getFromId(json.getComplex("action:data:card:id").toString(), trelloKey, trelloToken)
+                timestamp = OffsetDateTime.parse(cardData.getString("due"))
+            }
+
             "marked_the_due_date_complete" -> embed {
                 title { text = "Completed task" }
-                author { name = json.getComplex("action:data:card:name").toString() }
+                author { name = cardName }
                 colour = 0x0039A96E
-                timestamp = OffsetDateTime.parse(json.getComplex("action:date").toString())
+                timestamp = actionDate
             }
+
             else -> embed {
                 // ill get to this
-                println(action.substring(7))
+                title { text = "Unhandled event" }
+                author { name = action }
+                colour = defaultColour
+                timestamp = actionDate
             }
         }
 
-        API.getTextChannelById(channelId)!!.sendMessage(embed).queue()
+        if (embed.title != null && embed.title!!.isNotEmpty()) API.getTextChannelById(channelId)!!.sendMessage(embed).queue()
     }
 
     fun kill() = with(Socket("localhost", 49718)) {
