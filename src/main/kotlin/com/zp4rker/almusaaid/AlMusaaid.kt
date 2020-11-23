@@ -1,21 +1,15 @@
 package com.zp4rker.almusaaid
 
-import com.zp4rker.almusaaid.http.request
+import com.zp4rker.almusaaid.trello.DataServer
 import com.zp4rker.disbot.API
 import com.zp4rker.disbot.Bot
-import com.zp4rker.disbot.command.Command
-import com.zp4rker.disbot.extenstions.embed
+import com.zp4rker.disbot.bot
 import com.zp4rker.disbot.extenstions.event.on
 import com.zp4rker.disbot.extenstions.separator
 import net.dv8tion.jda.api.entities.Activity
-import net.dv8tion.jda.api.entities.Message
-import net.dv8tion.jda.api.entities.MessageEmbed
-import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
-import org.json.JSONObject
-import java.time.OffsetDateTime
 
 /**
  * @author zp4rker
@@ -24,9 +18,11 @@ import java.time.OffsetDateTime
 fun main(args: Array<String>) {
     val trelloKey = args[1]
     val trelloToken = args[2]
-    val trelloWebhook = args[3]
+//    val trelloWebhook = args[3]
 
-    val bot = Bot.create {
+    val dataServer = DataServer(trelloKey, trelloToken)
+
+    val bot = bot {
         name = "Al-Musā'id"
         version = Bot::class.java.`package`.implementationVersion
 
@@ -37,12 +33,9 @@ fun main(args: Array<String>) {
 
         intents = GatewayIntent.ALL_INTENTS
 
-        commands = listOf(object : Command(aliases = arrayOf("test2")) {
-            override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
-                val embed = embed { title { text = "this is the title" } }
-                channel.sendMessage("```json\n${embed.toData()}```").queue()
-            }
-        })
+        quit = {
+            dataServer.kill()
+        }
     }
 
     API.on<ReadyEvent> {
@@ -50,7 +43,14 @@ fun main(args: Array<String>) {
         bot.logger.info("Ready to serve!")
     }
 
-    val predicate: (GuildMessageReceivedEvent) -> Boolean = {
+    dataServer.start()
+
+    API.on<GuildMessageReceivedEvent>({ it.message.contentRaw == "stop server" }) {
+        dataServer.running = false
+        dataServer.kill()
+    }
+
+    /*val predicate: (GuildMessageReceivedEvent) -> Boolean = {
         it.message.embeds.isNotEmpty() && it.message.embeds[0].description == "empty data"
                 && arrayOf("Set due date", "Moved card").contains(it.message.embeds[0].title)
     }
@@ -94,5 +94,5 @@ fun main(args: Array<String>) {
 
         val embedString = """{ "embeds": [${embed.toData()}] }"""
         request("POST", trelloWebhook, headers = mapOf("Content-Type" to "application/json"), content = embedString)
-    }
+    }*/
 }

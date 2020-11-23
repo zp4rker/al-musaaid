@@ -1,12 +1,12 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.20'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
 group 'com.zp4rker'
 version '0.2.1-alpha'
 
-def disbotVersion = "1.2.1-release"
+def disbotVersion = "1.3.6-release"
 def jdaVersion = "4.2.0_217"
 
 repositories {
