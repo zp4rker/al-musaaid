@@ -1,5 +1,6 @@
 package com.zp4rker.almusaaid.trello
 
+import org.json.JSONObject
 import java.net.ServerSocket
 import java.net.Socket
 
@@ -28,7 +29,9 @@ class DataServer(private val trelloKey: String, private val trelloToken: String)
     }
 
     private fun handle(data: String) {
-        println(data)
+        val json = JSONObject(data)
+
+        println("Reveived data with keys: ${json.keySet().joinToString(", ")}")
     }
 
     fun kill() = with(Socket("localhost", 49718)) {
