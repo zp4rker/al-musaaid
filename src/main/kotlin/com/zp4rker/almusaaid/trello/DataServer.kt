@@ -50,6 +50,7 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
             }
             else -> embed {
                 // ill get to this
+                println(action.substring(7))
             }
         }
 
