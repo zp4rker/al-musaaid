@@ -6,9 +6,9 @@ import org.json.JSONObject
 /**
  * @author zp4rker
  */
-object CardData {
+object TrelloData {
 
-    fun getFromId(cardId: String, trelloKey: String, trelloToken: String) = JSONObject(request("GET", "https://api.trello.com/1/cards/$cardId", mapOf(
+    fun getCard(cardId: String, trelloKey: String, trelloToken: String) = JSONObject(request("GET", "https://api.trello.com/1/cards/$cardId", mapOf(
         "key" to trelloKey,
         "token" to trelloToken,
         "fields" to "due,name,idList"

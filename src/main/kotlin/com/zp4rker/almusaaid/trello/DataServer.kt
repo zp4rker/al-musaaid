@@ -54,6 +54,8 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
             }
 
             "move_card_from_list_to_list" -> {
+                println(json.getComplex("action:data:list:name"))
+                println(json.getComplex("action:data:list"))
                 if (json.getComplex("action:data:list:name") != "In Progress") embed()
                 else embed {
                     title { text = "Moved task to In Progress" }
@@ -68,7 +70,7 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
                 author { name = cardName }
                 colour = defaultColour
 
-                val cardData = CardData.getFromId(json.getComplex("action:data:card:id").toString(), trelloKey, trelloToken)
+                val cardData = TrelloData.getCard(json.getComplex("action:data:card:id").toString(), trelloKey, trelloToken)
                 timestamp = OffsetDateTime.parse(cardData.getString("due"))
             }
 
@@ -79,13 +81,13 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
                 timestamp = actionDate
             }
 
-            else -> embed {
+            else -> embed() /*{
                 // ill get to this
                 title { text = "Unhandled event" }
                 author { name = action }
                 colour = defaultColour
                 timestamp = actionDate
-            }
+            }*/
         }
 
         if (embed.title != null && embed.title!!.isNotEmpty()) API.getTextChannelById(channelId)!!.sendMessage(embed).queue()
