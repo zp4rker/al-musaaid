@@ -57,10 +57,10 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
 
             "move_card_from_list_to_list" -> {
                 val cardData = trelloData.getCard(json.getComplex("action:data:card:id").toString())
-                val listData = trelloData.getList(cardData.getString("idList"))
-                if (json.getComplex("action:data:list:name") != "In Progress") embed()
+                val listName = trelloData.getList(cardData.getString("idList")).getString("name")
+                if (listName != "In Progress") embed()
                 else embed {
-                    title { text = "Moved task to ${listData.getString("name")}" }
+                    title { text = "Moved task to $listName" }
                     author { name = cardName }
                     colour = defaultColour
                     timestamp = actionDate
