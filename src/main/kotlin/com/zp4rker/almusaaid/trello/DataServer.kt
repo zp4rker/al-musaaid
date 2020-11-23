@@ -1,6 +1,7 @@
 package com.zp4rker.almusaaid.trello
 
 import com.zp4rker.disbot.BOT
+import com.zp4rker.disbot.extenstions.getComplex
 import org.json.JSONObject
 import java.lang.StringBuilder
 import java.net.ServerSocket
@@ -40,11 +41,13 @@ class DataServer(private val trelloKey: String, private val trelloToken: String)
         println("Reveived action: $action")
         val sb = StringBuilder().apply { append("model = ") }.also { constructKeyTree(it, json.getJSONObject("model")) }
         println("Model key tree: $sb")
+        println("model:descData = ${json.getComplex("model:descData")}")
     }
 
     private fun constructKeyTree(sb: StringBuilder, json: JSONObject) {
         sb.append("{ ")
         for (key in json.keySet()) {
+            if (sb.toString().trim().endsWith("}")) sb.append(", ")
             sb.append(key)
             val obj = json[key]
             if (obj is JSONObject) {
