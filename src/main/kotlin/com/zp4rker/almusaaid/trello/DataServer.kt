@@ -12,12 +12,10 @@ import java.time.OffsetDateTime
 /**
  * @author zp4rker
  */
-class DataServer(private val trelloKey: String, private val trelloToken: String, channelId: Long): Thread() {
+class DataServer(private val trelloKey: String, private val trelloToken: String, private val channelId: Long): Thread() {
 
     private val serverSocket = ServerSocket(49718)
     var running = true
-
-    private val channel = API.getTextChannelById(channelId)!!
 
     override fun run() {
         while (running) {
@@ -55,7 +53,7 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
             }
         }
 
-        channel.sendMessage(embed).queue()
+        API.getTextChannelById(channelId)!!.sendMessage(embed).queue()
     }
 
     fun kill() = with(Socket("localhost", 49718)) {
