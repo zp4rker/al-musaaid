@@ -39,8 +39,6 @@ class DataServer(private val trelloKey: String, private val trelloToken: String)
 
         val action = json.getJSONObject("action").getJSONObject("display").getString("translationKey")
         println("Reveived action: $action")
-        val sb = StringBuilder().apply { append("model = ") }.also { constructKeyTree(it, json.getJSONObject("model")) }
-        println("Model key tree: $sb")
         println("model:descData = ${json.getComplex("model:descData")}")
     }
 
