@@ -1,5 +1,6 @@
 package com.zp4rker.almusaaid.trello
 
+import com.zp4rker.disbot.BOT
 import org.json.JSONObject
 import java.net.ServerSocket
 import java.net.Socket
@@ -20,7 +21,10 @@ class DataServer(private val trelloKey: String, private val trelloToken: String)
             input.close()
             socket.close()
 
-            if (data == "kill") continue
+            if (data == "kill") {
+                BOT.logger.info("Shutting down DataServer...")
+                continue
+            }
 
             handle(data)
         }
@@ -35,6 +39,7 @@ class DataServer(private val trelloKey: String, private val trelloToken: String)
     }
 
     fun kill() = with(Socket("localhost", 49718)) {
+        running = false
         val out = getOutputStream().writer()
         out.write("kill")
         out.close()
