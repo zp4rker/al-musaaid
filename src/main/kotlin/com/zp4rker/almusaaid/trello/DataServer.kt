@@ -2,6 +2,7 @@ package com.zp4rker.almusaaid.trello
 
 import com.zp4rker.disbot.BOT
 import org.json.JSONObject
+import java.lang.StringBuilder
 import java.net.ServerSocket
 import java.net.Socket
 
@@ -35,7 +36,25 @@ class DataServer(private val trelloKey: String, private val trelloToken: String)
     private fun handle(data: String) {
         val json = JSONObject(data)
 
-        println("Reveived data with keys: ${json.keySet().joinToString(", ")}")
+        val action = json.getJSONObject("action").getJSONObject("display").getString("translationKey")
+        println("Reveived action: $action")
+        val sb = StringBuilder().apply { append("model = ") }.also { constructKeyTree(it, json.getJSONObject("model")) }
+        println("Model key tree: $sb")
+    }
+
+    private fun constructKeyTree(sb: StringBuilder, json: JSONObject) {
+        sb.append("{ ")
+        for (key in json.keySet()) {
+            sb.append(key)
+            val obj = json[key]
+            if (obj is JSONObject) {
+                sb.append(" = ")
+                constructKeyTree(sb, obj)
+            } else if (key != json.keySet().last()) {
+                sb.append(", ")
+            }
+        }
+        sb.append(" }")
     }
 
     fun kill() = with(Socket("localhost", 49718)) {
