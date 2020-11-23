@@ -1,19 +1,23 @@
 package com.zp4rker.almusaaid.trello
 
+import com.zp4rker.disbot.API
 import com.zp4rker.disbot.BOT
+import com.zp4rker.disbot.extenstions.embed
 import com.zp4rker.disbot.extenstions.getComplex
 import org.json.JSONObject
-import java.lang.StringBuilder
 import java.net.ServerSocket
 import java.net.Socket
+import java.time.OffsetDateTime
 
 /**
  * @author zp4rker
  */
-class DataServer(private val trelloKey: String, private val trelloToken: String): Thread() {
+class DataServer(private val trelloKey: String, private val trelloToken: String, channelId: Long): Thread() {
 
     private val serverSocket = ServerSocket(49718)
     var running = true
+
+    private val channel = API.getTextChannelById(channelId)!!
 
     override fun run() {
         while (running) {
@@ -38,24 +42,20 @@ class DataServer(private val trelloKey: String, private val trelloToken: String)
         val json = JSONObject(data)
 
         val action = json.getJSONObject("action").getJSONObject("display").getString("translationKey")
-        println("Reveived action: $action")
-        println("model:descData = ${json.getComplex("model:descData")}")
-    }
 
-    private fun constructKeyTree(sb: StringBuilder, json: JSONObject) {
-        sb.append("{ ")
-        for (key in json.keySet()) {
-            if (sb.toString().trim().endsWith("}")) sb.append(", ")
-            sb.append(key)
-            val obj = json[key]
-            if (obj is JSONObject) {
-                sb.append(" = ")
-                constructKeyTree(sb, obj)
-            } else if (key != json.keySet().last()) {
-                sb.append(", ")
+        val embed = when (action.substring(7)) {
+            "marked_the_due_date_complete" -> embed {
+                title { text = "Completed task" }
+                author { name = json.getComplex("action:data:card:name").toString() }
+                colour = 0x0039A96E
+                timestamp = OffsetDateTime.parse(json.getComplex("action:date").toString())
+            }
+            else -> embed {
+                // ill get to this
             }
         }
-        sb.append(" }")
+
+        channel.sendMessage(embed).queue()
     }
 
     fun kill() = with(Socket("localhost", 49718)) {

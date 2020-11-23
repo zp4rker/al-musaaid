@@ -2,6 +2,7 @@ package com.zp4rker.almusaaid
 
 import com.zp4rker.almusaaid.trello.DataServer
 import com.zp4rker.disbot.API
+import com.zp4rker.disbot.BOT
 import com.zp4rker.disbot.Bot
 import com.zp4rker.disbot.bot
 import com.zp4rker.disbot.extenstions.event.on
@@ -18,11 +19,11 @@ import net.dv8tion.jda.api.requests.GatewayIntent
 fun main(args: Array<String>) {
     val trelloKey = args[1]
     val trelloToken = args[2]
-//    val trelloWebhook = args[3]
+    val channelId = args[3].toLong()
 
-    val dataServer = DataServer(trelloKey, trelloToken)
+    val dataServer = DataServer(trelloKey, trelloToken, channelId)
 
-    val bot = bot {
+    bot {
         name = "Al-Musā'id"
         version = Bot::class.java.`package`.implementationVersion
 
@@ -39,8 +40,9 @@ fun main(args: Array<String>) {
     }
 
     API.on<ReadyEvent> {
-        bot.logger.separator()
-        bot.logger.info("Ready to serve!")
+        BOT.logger.separator()
+        BOT.logger.info("Ready to serve!")
+        BOT.logger.separator()
     }
 
     dataServer.start()
