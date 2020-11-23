@@ -6,12 +6,18 @@ import org.json.JSONObject
 /**
  * @author zp4rker
  */
-object TrelloData {
+class TrelloData(private val trelloKey: String, private val trelloToken: String) {
 
-    fun getCard(cardId: String, trelloKey: String, trelloToken: String) = JSONObject(request("GET", "https://api.trello.com/1/cards/$cardId", mapOf(
+    fun getCard(cardId: String) = JSONObject(request("GET", "https://api.trello.com/1/cards/$cardId", mapOf(
         "key" to trelloKey,
         "token" to trelloToken,
-        "fields" to "due,name,idList"
+        "fields" to "all"
+    )))
+
+    fun getList(listId: String) = JSONObject(request("GET", "https://api.trello.com/1/lists/$listId", mapOf(
+        "key" to trelloKey,
+        "token" to trelloToken,
+        "fields" to "all"
     )))
 
 }

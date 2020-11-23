@@ -18,6 +18,8 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
     private val serverSocket = ServerSocket(49718)
     var running = true
 
+    private val trelloData = TrelloData(trelloKey, trelloToken)
+
     override fun run() {
         while (running) {
             val socket = serverSocket.accept()
@@ -54,11 +56,11 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
             }
 
             "move_card_from_list_to_list" -> {
-                println(json.getComplex("action:data:list:name"))
-                println(json.getComplex("action:data:list"))
+                val cardData = trelloData.getCard(json.getComplex("action:data:card:id").toString())
+                val listData = trelloData.getList(cardData.getString("idList"))
                 if (json.getComplex("action:data:list:name") != "In Progress") embed()
                 else embed {
-                    title { text = "Moved task to In Progress" }
+                    title { text = "Moved task to ${listData.getString("name")}" }
                     author { name = cardName }
                     colour = defaultColour
                     timestamp = actionDate
@@ -70,7 +72,7 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
                 author { name = cardName }
                 colour = defaultColour
 
-                val cardData = TrelloData.getCard(json.getComplex("action:data:card:id").toString(), trelloKey, trelloToken)
+                val cardData = trelloData.getCard(json.getComplex("action:data:card:id").toString())
                 timestamp = OffsetDateTime.parse(cardData.getString("due"))
             }
 
