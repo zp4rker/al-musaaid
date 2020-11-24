@@ -1,6 +1,13 @@
 package com.zp4rker.almusaaid
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
+import com.zp4rker.almusaaid.audio.AudioHandler
+import com.zp4rker.almusaaid.audio.TrackHandler
 import com.zp4rker.almusaaid.command.PurgeCommand
+import com.zp4rker.almusaaid.command.audio.PlayCommand
 import com.zp4rker.almusaaid.trello.DataServer
 import com.zp4rker.disbot.API
 import com.zp4rker.disbot.BOT
@@ -16,12 +23,22 @@ import net.dv8tion.jda.api.requests.GatewayIntent
  * @author zp4rker
  */
 
+lateinit var PLAYER: AudioPlayer
+lateinit var PLAYERMANAGER: AudioPlayerManager
+lateinit var TRACKS: TrackHandler
+lateinit var AUDIOHANDLER: AudioHandler
+
 fun main(args: Array<String>) {
     val trelloKey = args[1]
     val trelloToken = args[2]
     val channelId = args[3].toLong()
 
     val dataServer = DataServer(trelloKey, trelloToken, channelId)
+
+    PLAYERMANAGER = DefaultAudioPlayerManager().also { AudioSourceManagers.registerRemoteSources(it) }
+    PLAYER = PLAYERMANAGER.createPlayer()
+    TRACKS = TrackHandler()
+    AUDIOHANDLER = AudioHandler(PLAYER)
 
     bot {
         name = "Al-Musā'id"
@@ -38,7 +55,7 @@ fun main(args: Array<String>) {
             dataServer.kill()
         }
 
-        commands = arrayOf(PurgeCommand)
+        commands = arrayOf(PurgeCommand, PlayCommand)
     }
 
     API.on<ReadyEvent> {
