@@ -7,7 +7,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import com.zp4rker.almusaaid.audio.AudioHandler
 import com.zp4rker.almusaaid.audio.TrackHandler
 import com.zp4rker.almusaaid.command.PurgeCommand
-import com.zp4rker.almusaaid.command.audio.PlayCommand
+import com.zp4rker.almusaaid.command.audio.*
 import com.zp4rker.almusaaid.trello.DataServer
 import com.zp4rker.disbot.API
 import com.zp4rker.disbot.BOT
@@ -55,7 +55,17 @@ fun main(args: Array<String>) {
             dataServer.kill()
         }
 
-        commands = arrayOf(PurgeCommand, PlayCommand)
+        commands = arrayOf(
+            // Misc commands
+            PurgeCommand,
+            // Audio commands
+            CurrentTrackCommand,
+            QueueCommand,
+            PlayCommand,
+            PauseCommand,
+            ResumeCommand,
+            StopCommand
+        )
     }
 
     API.on<ReadyEvent> {

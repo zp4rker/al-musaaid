@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.TextChannel
 /**
  * @author zp4rker
  */
-object PlayCommand : Command(aliases = arrayOf("play"), minArgs = 1) {
+object PlayCommand : Command(aliases = arrayOf("play", "p"), minArgs = 1) {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val audioManager = channel.guild.audioManager

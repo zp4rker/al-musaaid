@@ -40,8 +40,10 @@ class TrackHandler : AudioEventAdapter() {
         PLAYER.playingTrack.position = 0
     }
 
-    fun stopTrack() {
-        PLAYER.stopTrack()
+    fun getQueue(): Array<AudioTrack> = queue.toArray(arrayOf())
+
+    fun clearQueue() {
+        queue.clear()
     }
 
     var volume: Int

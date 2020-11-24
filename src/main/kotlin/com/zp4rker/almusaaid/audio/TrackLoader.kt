@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.entities.TextChannel
 class TrackLoader(private val channel: TextChannel): AudioLoadResultHandler {
 
     override fun trackLoaded(track: AudioTrack) {
-        channel.sendMessage("Loaded track: ${track.info.title}").queue()
+        channel.sendMessage("Loaded track: `${track.info.title}`").queue()
         TRACKS.queue(track)
     }
 

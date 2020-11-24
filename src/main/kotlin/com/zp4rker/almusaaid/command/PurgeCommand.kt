@@ -11,11 +11,9 @@ import java.util.concurrent.TimeUnit
 /**
  * @author zp4rker
  */
-object PurgeCommand : Command(aliases = arrayOf("purge", "clear"), minArgs = 1) {
+object PurgeCommand : Command(aliases = arrayOf("purge", "clear"), minArgs = 1, permission = Permission.MESSAGE_MANAGE) {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
-        if (!message.member!!.hasPermission(Permission.ADMINISTRATOR) && !message.member!!.isOwner) return
-
         val amount = if (args[0] == "all") -1 else args[0].toInt()
         purge(channel, amount)
     }
