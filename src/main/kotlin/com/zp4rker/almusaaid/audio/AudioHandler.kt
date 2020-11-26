@@ -1,19 +1,19 @@
 package com.zp4rker.almusaaid.audio
 
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame
+import com.zp4rker.almusaaid.PLAYER
 import net.dv8tion.jda.api.audio.AudioSendHandler
 import java.nio.ByteBuffer
 
 /**
  * @author zp4rker
  */
-class AudioHandler(private val audioPlayer: AudioPlayer) : AudioSendHandler {
+class AudioHandler : AudioSendHandler {
 
     private var frame: AudioFrame? = null
 
     override fun canProvide(): Boolean {
-        frame = audioPlayer.provide()
+        frame = PLAYER.provide()
         return frame != null
     }
 

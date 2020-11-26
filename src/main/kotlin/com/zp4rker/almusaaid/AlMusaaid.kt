@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import com.zp4rker.almusaaid.audio.AudioHandler
 import com.zp4rker.almusaaid.audio.TrackHandler
+import com.zp4rker.almusaaid.command.EmbedCommand
 import com.zp4rker.almusaaid.command.PurgeCommand
 import com.zp4rker.almusaaid.command.audio.*
 import com.zp4rker.almusaaid.trello.DataServer
@@ -24,9 +25,9 @@ import net.dv8tion.jda.api.requests.GatewayIntent
  */
 
 lateinit var PLAYER: AudioPlayer
-lateinit var PLAYERMANAGER: AudioPlayerManager
-lateinit var TRACKS: TrackHandler
-lateinit var AUDIOHANDLER: AudioHandler
+lateinit var PMANAGER: AudioPlayerManager
+lateinit var TSCHEDULER: TrackHandler
+lateinit var AHANDLER: AudioHandler
 
 fun main(args: Array<String>) {
     val trelloKey = args[1]
@@ -35,10 +36,10 @@ fun main(args: Array<String>) {
 
     val dataServer = DataServer(trelloKey, trelloToken, channelId)
 
-    PLAYERMANAGER = DefaultAudioPlayerManager().also { AudioSourceManagers.registerRemoteSources(it) }
-    PLAYER = PLAYERMANAGER.createPlayer()
-    TRACKS = TrackHandler()
-    AUDIOHANDLER = AudioHandler(PLAYER)
+    PMANAGER = DefaultAudioPlayerManager().also { AudioSourceManagers.registerRemoteSources(it) }
+    PLAYER = PMANAGER.createPlayer()
+    TSCHEDULER = TrackHandler()
+    AHANDLER = AudioHandler()
 
     bot {
         name = "Al-Musā'id"
@@ -58,8 +59,8 @@ fun main(args: Array<String>) {
         commands = arrayOf(
             // Misc commands
             PurgeCommand,
+            EmbedCommand,
             // Audio commands
-            CurrentTrackCommand,
             QueueCommand,
             PlayCommand,
             PauseCommand,

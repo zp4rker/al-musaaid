@@ -7,8 +7,18 @@ import java.net.URL
  * @author zp4rker
  */
 
-fun request(method: String, baseUrl: String, parameters: Map<String, Any> = mapOf(), headers: Map<String, String> = mapOf(), content: String? = null): String {
-    val url = URL("$baseUrl${if (parameters.isNotEmpty()) parameters.map { "${it.key}=${it.value}" }.joinToString("&", "?") else ""}")
+fun request(
+    method: String,
+    baseUrl: String,
+    parameters: Map<String, Any> = mapOf(),
+    headers: Map<String, String> = mapOf(),
+    content: String? = null
+): String {
+    val url = URL(
+        "$baseUrl${
+            if (parameters.isNotEmpty()) parameters.map { "${it.key}=${it.value}" }.joinToString("&", "?") else ""
+        }"
+    )
 
     with(url.openConnection() as HttpURLConnection) {
         requestMethod = method.toUpperCase()

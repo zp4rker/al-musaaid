@@ -1,10 +1,11 @@
 package com.zp4rker.almusaaid.command.audio
 
-import com.zp4rker.almusaaid.AUDIOHANDLER
 import com.zp4rker.almusaaid.PLAYER
-import com.zp4rker.almusaaid.PLAYERMANAGER
+import com.zp4rker.almusaaid.PMANAGER
+import com.zp4rker.almusaaid.TSCHEDULER
 import com.zp4rker.almusaaid.audio.TrackLoader
 import com.zp4rker.disbot.command.Command
+import com.zp4rker.disbot.extenstions.embed
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 
@@ -14,15 +15,25 @@ import net.dv8tion.jda.api.entities.TextChannel
 object PlayCommand : Command(aliases = arrayOf("play", "p"), minArgs = 1) {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
-        val audioManager = channel.guild.audioManager
+        message.suppressEmbeds(true).queue()
 
-        if (audioManager.sendingHandler != AUDIOHANDLER) audioManager.sendingHandler = AUDIOHANDLER
+        if (TSCHEDULER.getQueue().any { it.track.info.uri == args[0] }) {
+            channel.sendMessage(embed {
+                title { text = "Track already in queue!" }
 
-        if (!audioManager.isConnected) {
-            audioManager.openAudioConnection(channel.guild.voiceChannels.first())
+                description = "```${args[0]}```"
+
+                footer {
+                    text = "Requested by ${message.author.name}"
+                    iconUrl = message.author.effectiveAvatarUrl
+                }
+
+                color = "#ec644b"
+            }).queue()
+            return
         }
 
-        PLAYERMANAGER.loadItemOrdered(PLAYER, args[0], TrackLoader(channel))
+        PMANAGER.loadItemOrdered(PLAYER, args[0], TrackLoader(channel, message.author))
     }
 
 }

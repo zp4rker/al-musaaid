@@ -45,13 +45,13 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
         val action = json.getJSONObject("action").getJSONObject("display").getString("translationKey")
         val actionDate = OffsetDateTime.parse(json.getComplex("action:date").toString())
         val cardName = json.getComplex("action:data:card:name").toString()
-        val defaultColour = 0x000D63B2
+        val defaultColour = "#0D63B2"
 
         val embed = when (action.substring(7)) {
             "create_card" -> embed {
                 title { text = "Added task to ${json.getComplex("action:data:list:name")}" }
                 author { name = cardName }
-                colour = defaultColour
+                color = defaultColour
                 timestamp = actionDate
             }
 
@@ -62,7 +62,7 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
                 else embed {
                     title { text = "Moved task to $listName" }
                     author { name = cardName }
-                    colour = defaultColour
+                    color = defaultColour
                     timestamp = actionDate
                 }
             }
@@ -70,7 +70,7 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
             "added_a_due_date" -> embed {
                 title { text = "Set due date" }
                 author { name = cardName }
-                colour = defaultColour
+                color = defaultColour
 
                 val cardData = trelloData.getCard(json.getComplex("action:data:card:id").toString())
                 timestamp = OffsetDateTime.parse(cardData.getString("due"))
@@ -79,19 +79,15 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
             "marked_the_due_date_complete" -> embed {
                 title { text = "Completed task" }
                 author { name = cardName }
-                colour = 0x0039A96E
+                color = "#39A96E"
                 timestamp = actionDate
             }
 
-            else -> embed() /*{
-                title { text = "Unhandled event" }
-                author { name = action }
-                colour = defaultColour
-                timestamp = actionDate
-            }*/
+            else -> embed()
         }
 
-        if (embed.title != null && embed.title!!.isNotEmpty()) API.getTextChannelById(channelId)!!.sendMessage(embed).queue()
+        if (embed.title != null && embed.title!!.isNotEmpty()) API.getTextChannelById(channelId)!!.sendMessage(embed)
+            .queue()
     }
 
     fun kill() = with(Socket("localhost", 49718)) {
