@@ -1,19 +1,16 @@
 package com.zp4rker.almusaaid.trello
 
 import com.zp4rker.disbot.API
-import com.zp4rker.disbot.BOT
 import com.zp4rker.disbot.extenstions.embed
 import com.zp4rker.disbot.extenstions.getComplex
 import org.json.JSONObject
 import java.net.ServerSocket
-import java.net.Socket
 import java.time.OffsetDateTime
 
 /**
  * @author zp4rker
  */
-class DataServer(private val trelloKey: String, private val trelloToken: String, private val channelId: Long) :
-    Thread() {
+class DataServer(trelloKey: String, trelloToken: String, private val channelId: Long) : Thread() {
 
     private val serverSocket = ServerSocket(49718)
     var running = true
@@ -22,18 +19,16 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
 
     override fun run() {
         while (running) {
-            val socket = serverSocket.accept()
-            val input = socket.getInputStream().reader()
-            val data = input.readText()
-            input.close()
-            socket.close()
+            kotlin.runCatching {
+                serverSocket.accept().use {
+                    val input = it.getInputStream().reader()
+                    val data = input.readText()
 
-            if (data == "kill") {
-                BOT.logger.info("Shutting down DataServer...")
-                continue
+                    handle(data)
+                }
+            }.onFailure {
+                if (running) it.printStackTrace()
             }
-
-            handle(data)
         }
 
         serverSocket.close()
@@ -90,12 +85,9 @@ class DataServer(private val trelloKey: String, private val trelloToken: String,
             .queue()
     }
 
-    fun kill() = with(Socket("localhost", 49718)) {
+    fun kill() {
         running = false
-        val out = getOutputStream().writer()
-        out.write("kill")
-        out.close()
-        close()
+        serverSocket.close()
     }
 
 }
