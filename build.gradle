@@ -6,7 +6,7 @@ plugins {
 group 'com.zp4rker'
 version '0.6.0-alpha'
 
-def disbotVersion = "1.4.1-release"
+def disbotVersion = "1.5.0-release"
 def jdaVersion = "4.2.0_221"
 
 repositories {
@@ -24,9 +24,9 @@ dependencies {
     shadow "org.json:json:20190722"
 
     compile "net.dv8tion:JDA:$jdaVersion"
-    shadow "com.sedmelluq:lavaplayer:1.3.61"
+    compile "com.sedmelluq:lavaplayer:1.3.61"
 
-    shadow "de.swirtz:ktsRunner:0.0.9"
+    compile "de.swirtz:ktsRunner:0.0.9"
 }
 
 compileKotlin {
@@ -52,6 +52,10 @@ shadowJar {
     configurations = [project.configurations.shadow]
 
     def keep = ["com.zp4rker", "org.json", "de.swirtz", "com.sedmelluq"]
+
+    minimize {
+        exclude(dependency { it.moduleGroup == "com.zp4rker" })
+    }
 
     dependencies {
         exclude(dependency { !project.configurations.shadow.allDependencies.any { d -> it.moduleGroup == d.group && it.moduleName == d.name } })
