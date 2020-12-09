@@ -4,10 +4,10 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '0.6.1-alpha'
+version '0.6.2-alpha'
 
-def disbotVersion = "1.5.1-release"
-def jdaVersion = "4.2.0_221"
+def disbotCoreVersion = "1.0.0-release"
+def jdaVersion = "4.2.0_222"
 
 repositories {
     mavenCentral()
@@ -20,7 +20,7 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    shadow "com.zp4rker:disbot:$disbotVersion"
+    shadow "com.zp4rker.dsc:disbot-core:$disbotCoreVersion"
     shadow "org.json:json:20190722"
 
     compile "net.dv8tion:JDA:$jdaVersion"
@@ -35,13 +35,13 @@ compileKotlin {
 
 jar {
     manifest {
-        attributes "Main-Class": "com.zp4rker.disbot.bootstrap.Main"
+        attributes "Main-Class": "com.zp4rker.dsc.core.bootstrap.Main"
         attributes "Class-Path": "lib/"
 
         attributes "Bot-Main": "com.zp4rker.almusaaid.AlMusaaidKt"
         attributes "Implementation-Version": project.version
 
-        attributes "Disbot-Version": disbotVersion
+        attributes "Disbot-Version": disbotCoreVersion
         attributes "JDA-Version": jdaVersion
     }
 }
@@ -51,10 +51,8 @@ shadowJar {
 
     configurations = [project.configurations.shadow]
 
-    def keep = ["com.zp4rker", "org.json", "de.swirtz", "com.sedmelluq"]
-
     minimize {
-        exclude(dependency { it.moduleGroup == "com.zp4rker" })
+        exclude(dependency { it.moduleGroup == "com.zp4rker.dsc" })
     }
 
     dependencies {

@@ -6,16 +6,15 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import com.zp4rker.almusaaid.audio.AudioHandler
 import com.zp4rker.almusaaid.audio.TrackHandler
-import com.zp4rker.almusaaid.command.EmbedCommand
 import com.zp4rker.almusaaid.command.PurgeCommand
 import com.zp4rker.almusaaid.command.audio.*
 import com.zp4rker.almusaaid.trello.DataServer
-import com.zp4rker.disbot.API
-import com.zp4rker.disbot.BOT
-import com.zp4rker.disbot.Bot
-import com.zp4rker.disbot.bot
-import com.zp4rker.disbot.extenstions.event.on
-import com.zp4rker.disbot.extenstions.separator
+import com.zp4rker.dsc.core.API
+import com.zp4rker.dsc.core.BOT
+import com.zp4rker.dsc.core.Bot
+import com.zp4rker.dsc.core.bot
+import com.zp4rker.dsc.core.extenstions.event.on
+import com.zp4rker.dsc.core.extenstions.separator
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
@@ -59,7 +58,6 @@ fun main(args: Array<String>) {
         commands = arrayOf(
             // Misc commands
             PurgeCommand,
-            EmbedCommand,
             // Audio commands
             QueueCommand,
             PlayCommand,

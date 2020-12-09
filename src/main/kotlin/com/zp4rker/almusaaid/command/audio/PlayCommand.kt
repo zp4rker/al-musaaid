@@ -4,8 +4,8 @@ import com.zp4rker.almusaaid.PLAYER
 import com.zp4rker.almusaaid.PMANAGER
 import com.zp4rker.almusaaid.TSCHEDULER
 import com.zp4rker.almusaaid.audio.TrackLoader
-import com.zp4rker.disbot.command.Command
-import com.zp4rker.disbot.extenstions.embed
+import com.zp4rker.dsc.core.command.Command
+import com.zp4rker.dsc.core.extenstions.embed
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 

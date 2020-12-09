@@ -6,7 +6,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.zp4rker.almusaaid.AHANDLER
 import com.zp4rker.almusaaid.TSCHEDULER
-import com.zp4rker.disbot.extenstions.embed
+import com.zp4rker.dsc.core.extenstions.embed
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 import java.util.concurrent.TimeUnit
@@ -23,8 +23,8 @@ class TrackLoader(private val channel: TextChannel, private val requester: User)
             description = "```${track.info.title}```"
 
             field {
-                name = "Duration"
-                value = translateMillis(track.duration)
+                title = "Duration"
+                text = translateMillis(track.duration)
             }
         }).queue()
 
@@ -42,13 +42,13 @@ class TrackLoader(private val channel: TextChannel, private val requester: User)
             description = "```${playlist.name}```"
 
             field {
-                name = "Amount of tracks"
-                value = "${playlist.tracks.size}"
+                title = "Amount of tracks"
+                text = "${playlist.tracks.size}"
             }
 
             field {
-                name = "Total duration of playlist"
-                value = translateMillis(playlist.tracks.sumOf { it.duration })
+                title = "Total duration of playlist"
+                text = translateMillis(playlist.tracks.sumOf { it.duration })
             }
 
             footer {

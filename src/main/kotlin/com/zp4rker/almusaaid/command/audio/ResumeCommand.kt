@@ -3,8 +3,8 @@ package com.zp4rker.almusaaid.command.audio
 import com.zp4rker.almusaaid.PLAYER
 import com.zp4rker.almusaaid.TSCHEDULER
 import com.zp4rker.almusaaid.audio.translateMillis
-import com.zp4rker.disbot.command.Command
-import com.zp4rker.disbot.extenstions.embed
+import com.zp4rker.dsc.core.command.Command
+import com.zp4rker.dsc.core.extenstions.embed
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 
@@ -52,8 +52,8 @@ object ResumeCommand : Command(aliases = arrayOf("resume")) {
             title { text = "Resumed player" }
 
             field {
-                name = "Current position"
-                value = "[${translateMillis(track.position)}/${translateMillis(track.duration)}]"
+                title = "Current position"
+                text = "[${translateMillis(track.position)}/${translateMillis(track.duration)}]"
             }
 
             footer {

@@ -2,8 +2,8 @@ package com.zp4rker.almusaaid.command.audio
 
 import com.zp4rker.almusaaid.TSCHEDULER
 import com.zp4rker.almusaaid.audio.translateMillis
-import com.zp4rker.disbot.command.Command
-import com.zp4rker.disbot.extenstions.embed
+import com.zp4rker.dsc.core.command.Command
+import com.zp4rker.dsc.core.extenstions.embed
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 import java.time.Instant
@@ -30,15 +30,15 @@ object QueueCommand : Command(aliases = arrayOf("queue", "q")) {
             description = "```$listString```"
 
             field {
-                name = "Total duration"
-                value = translateMillis(trackList.sumOf { it.duration })
+                title = "Total duration"
+                text = translateMillis(trackList.sumOf { it.duration })
             }
 
             val durationRemaining = trackList[0].run { duration - position } + trackList.drop(1).sumOf { it.duration }
 
             field {
-                name = "Tracks remaining"
-                value = "${trackList.size - 1} (${translateMillis(durationRemaining)})"
+                title = "Tracks remaining"
+                text = "${trackList.size - 1} (${translateMillis(durationRemaining)})"
             }
 
             footer { text = "Finishes" }

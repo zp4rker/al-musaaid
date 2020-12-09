@@ -1,11 +1,4 @@
 <root>
-    <repositoreis>
-        <repository>
-            <id>KtsRunner</id>
-            <url>https://dl.bintray.com/s1m0nw1/KtsRunner</url>
-        </repository>
-    </repositoreis>
-
     <dependencies>
         <dependency>
             <groupId>com.sedmelluq</groupId>
