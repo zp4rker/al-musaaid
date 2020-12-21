@@ -9,12 +9,12 @@ import com.zp4rker.almusaaid.audio.TrackHandler
 import com.zp4rker.almusaaid.command.PurgeCommand
 import com.zp4rker.almusaaid.command.audio.*
 import com.zp4rker.almusaaid.trello.DataServer
-import com.zp4rker.dsc.core.API
-import com.zp4rker.dsc.core.BOT
-import com.zp4rker.dsc.core.Bot
-import com.zp4rker.dsc.core.bot
-import com.zp4rker.dsc.core.extenstions.event.on
-import com.zp4rker.dsc.core.extenstions.separator
+import com.zp4rker.discore.API
+import com.zp4rker.discore.BOT
+import com.zp4rker.discore.Bot
+import com.zp4rker.discore.bot
+import com.zp4rker.discore.extenstions.event.on
+import com.zp4rker.discore.extenstions.separator
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
@@ -55,7 +55,7 @@ fun main(args: Array<String>) {
             dataServer.kill()
         }
 
-        commands = arrayOf(
+        commands = listOf(
             // Misc commands
             PurgeCommand,
             // Audio commands

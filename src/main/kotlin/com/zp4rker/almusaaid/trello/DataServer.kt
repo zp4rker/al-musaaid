@@ -1,8 +1,8 @@
 package com.zp4rker.almusaaid.trello
 
-import com.zp4rker.dsc.core.API
-import com.zp4rker.dsc.core.extenstions.embed
-import com.zp4rker.dsc.core.extenstions.getComplex
+import com.zp4rker.discore.API
+import com.zp4rker.discore.extenstions.embed
+import com.zp4rker.discore.extenstions.getComplex
 import org.json.JSONObject
 import java.net.ServerSocket
 import java.time.OffsetDateTime

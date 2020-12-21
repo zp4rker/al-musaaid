@@ -2,8 +2,8 @@ package com.zp4rker.almusaaid.command.audio
 
 import com.zp4rker.almusaaid.PLAYER
 import com.zp4rker.almusaaid.TSCHEDULER
-import com.zp4rker.dsc.core.command.Command
-import com.zp4rker.dsc.core.extenstions.embed
+import com.zp4rker.discore.command.Command
+import com.zp4rker.discore.extenstions.embed
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 

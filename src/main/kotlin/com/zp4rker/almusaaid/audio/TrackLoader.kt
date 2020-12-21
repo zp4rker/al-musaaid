@@ -6,7 +6,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.zp4rker.almusaaid.AHANDLER
 import com.zp4rker.almusaaid.TSCHEDULER
-import com.zp4rker.dsc.core.extenstions.embed
+import com.zp4rker.discore.extenstions.embed
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 import java.util.concurrent.TimeUnit

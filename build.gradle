@@ -6,27 +6,28 @@ plugins {
 group 'com.zp4rker'
 version '0.6.2-alpha'
 
-def disbotCoreVersion = "1.0.0-release"
+def discoreVersion = "1.0.1-release"
 def jdaVersion = "4.2.0_222"
 
 repositories {
-    mavenCentral()
     mavenLocal()
-    maven { url = "https://maven.zp4rker.com" }
+    mavenCentral()
     maven { url = "https://dl.bintray.com/s1m0nw1/KtsRunner" }
     jcenter()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    shadow "com.zp4rker.dsc:disbot-core:$disbotCoreVersion"
+    compile ("com.zp4rker:discore:$discoreVersion") {
+        transitive = false
+    }
     shadow "org.json:json:20190722"
 
-    compile "net.dv8tion:JDA:$jdaVersion"
-    compile "com.sedmelluq:lavaplayer:1.3.61"
+    shadow "net.dv8tion:JDA:$jdaVersion"
+    shadow "com.sedmelluq:lavaplayer:1.3.61"
 
-    compile "de.swirtz:ktsRunner:0.0.9"
+    shadow "de.swirtz:ktsRunner:0.0.9"
 }
 
 compileKotlin {
@@ -35,13 +36,13 @@ compileKotlin {
 
 jar {
     manifest {
-        attributes "Main-Class": "com.zp4rker.dsc.core.bootstrap.Main"
+        attributes "Main-Class": "com.zp4rker.discore.bootstrap.Main"
         attributes "Class-Path": "lib/"
 
         attributes "Bot-Main": "com.zp4rker.almusaaid.AlMusaaidKt"
         attributes "Implementation-Version": project.version
 
-        attributes "Disbot-Version": disbotCoreVersion
+        attributes "Disbot-Version": discoreVersion
         attributes "JDA-Version": jdaVersion
     }
 }
@@ -49,14 +50,10 @@ jar {
 shadowJar {
     archiveClassifier.set("")
 
-    configurations = [project.configurations.shadow]
+    configurations = [project.configurations.compile]
 
     minimize {
-        exclude(dependency { it.moduleGroup == "com.zp4rker.dsc" })
-    }
-
-    dependencies {
-        exclude(dependency { !project.configurations.shadow.allDependencies.any { d -> it.moduleGroup == d.group && it.moduleName == d.name } })
+        exclude(dependency { it.moduleGroup == "com.zp4rker" })
     }
 }
 

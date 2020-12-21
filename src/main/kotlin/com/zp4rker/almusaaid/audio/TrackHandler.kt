@@ -5,8 +5,8 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
 import com.zp4rker.almusaaid.PLAYER
-import com.zp4rker.dsc.core.API
-import com.zp4rker.dsc.core.extenstions.embed
+import com.zp4rker.discore.API
+import com.zp4rker.discore.extenstions.embed
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 import java.util.concurrent.LinkedBlockingQueue
