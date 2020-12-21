@@ -8,6 +8,7 @@ import com.zp4rker.almusaaid.audio.AudioHandler
 import com.zp4rker.almusaaid.audio.TrackHandler
 import com.zp4rker.almusaaid.command.PurgeCommand
 import com.zp4rker.almusaaid.command.audio.*
+import com.zp4rker.almusaaid.github.RepoTracker
 import com.zp4rker.almusaaid.trello.DataServer
 import com.zp4rker.discore.API
 import com.zp4rker.discore.BOT
@@ -28,10 +29,15 @@ lateinit var PMANAGER: AudioPlayerManager
 lateinit var TSCHEDULER: TrackHandler
 lateinit var AHANDLER: AudioHandler
 
+lateinit var discordHook: String
+lateinit var githubAuth: String
+
 fun main(args: Array<String>) {
     val trelloKey = args[1]
     val trelloToken = args[2]
     val channelId = args[3].toLong()
+    discordHook = args[4]
+    githubAuth = args[5]
 
     val dataServer = DataServer(trelloKey, trelloToken, channelId)
 
@@ -74,4 +80,5 @@ fun main(args: Array<String>) {
     }
 
     dataServer.start()
+    RepoTracker.start()
 }

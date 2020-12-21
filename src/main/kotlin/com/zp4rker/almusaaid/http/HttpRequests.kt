@@ -19,25 +19,20 @@ fun request(
             if (parameters.isNotEmpty()) parameters.map { "${it.key}=${it.value}" }.joinToString("&", "?") else ""
         }"
     )
-
     with(url.openConnection() as HttpURLConnection) {
         requestMethod = method.toUpperCase()
-
         headers.forEach { addRequestProperty(it.key, it.value) }
-
         content?.let {
             doOutput = true
-
-            outputStream.use { os ->
-                with(os.writer()) {
-                    write(content)
-                    close()
-                }
-            }
+            outputStream.use { os -> os.writer().use { wr -> wr.write(content) } }
         }
 
-        inputStream.use {
-            return it.reader().run { readText().also { close() } }
+        val response = runCatching { inputStream.use { it.reader().use { r -> r.readText() } } }.getOrNull() ?: ""
+
+        errorStream?.use {
+            println(it.reader().use { r -> r.readText() })
         }
+
+        return response
     }
 }

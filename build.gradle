@@ -1,33 +1,28 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.20'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.21'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
 group 'com.zp4rker'
-version '0.6.2-alpha'
+version '0.6.3-alpha'
 
-def discoreVersion = "1.0.1-release"
-def jdaVersion = "4.2.0_222"
+def discoreVersion = "1.1.1-release"
+def jdaVersion = "4.2.0_223"
 
 repositories {
-    mavenLocal()
     mavenCentral()
-    maven { url = "https://dl.bintray.com/s1m0nw1/KtsRunner" }
     jcenter()
 }
 
 dependencies {
-    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    shadow ("com.zp4rker:discore:$discoreVersion") { transitive = false }
 
-    compile ("com.zp4rker:discore:$discoreVersion") {
-        transitive = false
-    }
-    shadow "org.json:json:20190722"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "com.zp4rker:discore:$discoreVersion"
+    compile "net.dv8tion:JDA:$jdaVersion"
 
-    shadow "net.dv8tion:JDA:$jdaVersion"
-    shadow "com.sedmelluq:lavaplayer:1.3.61"
-
-    shadow "de.swirtz:ktsRunner:0.0.9"
+    compile "com.sedmelluq:lavaplayer:1.3.61"
+    compile "org.kohsuke:github-api:1.117"
 }
 
 compileKotlin {
@@ -50,11 +45,7 @@ jar {
 shadowJar {
     archiveClassifier.set("")
 
-    configurations = [project.configurations.compile]
-
-    minimize {
-        exclude(dependency { it.moduleGroup == "com.zp4rker" })
-    }
+    configurations = [project.configurations.shadow]
 }
 
 build.dependsOn "shadowJar"
