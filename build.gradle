@@ -1,10 +1,12 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.4.21'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.21'
+
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
 group 'com.zp4rker'
-version '0.6.3-alpha'
+version '0.6.4-alpha'
 
 def discoreVersion = "1.1.1-release"
 def jdaVersion = "4.2.0_223"

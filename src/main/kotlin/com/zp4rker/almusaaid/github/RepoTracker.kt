@@ -1,14 +1,20 @@
 package com.zp4rker.almusaaid.github
 
+import com.charleskorn.kaml.Yaml
 import com.zp4rker.almusaaid.discordHook
 import com.zp4rker.almusaaid.githubAuth
 import com.zp4rker.almusaaid.http.request
 import com.zp4rker.discore.extenstions.embed
 import com.zp4rker.discore.extenstions.toJson
-import org.kohsuke.github.*
-import java.net.URL
-import java.time.LocalDate
+import com.zp4rker.discore.util.encode
+import kotlinx.serialization.decodeFromString
+import org.kohsuke.github.GHEvent
+import org.kohsuke.github.GHMyself
+import org.kohsuke.github.GHRepository
+import org.kohsuke.github.GitHubBuilder
+import java.io.File
 import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.scheduleAtFixedRate
@@ -21,6 +27,15 @@ object RepoTracker {
     private val rawHook = discordHook.dropLast("/github".length)
     private lateinit var myself: GHMyself
 
+    val cacheFile: File = File("repocache.yml")
+    var cache: RepoCache = if (cacheFile.length() > 0) {
+        Yaml.default.decodeFromString(cacheFile.readText())
+    } else {
+        if (!cacheFile.exists()) cacheFile.createNewFile()
+        RepoCache()
+    }
+    var cacheUpdated = false
+
     fun start() {
         val client = GitHubBuilder().withOAuthToken(githubAuth).build()
         myself = client.myself
@@ -28,37 +43,48 @@ object RepoTracker {
         val name = myself.login
         val avatar = myself.avatarUrl
 
-        var last = LocalDate.now(ZoneOffset.UTC)
+        var last = ZonedDateTime.now(ZoneOffset.UTC)
         Timer().scheduleAtFixedRate(0, TimeUnit.MINUTES.toMillis(1)) {
-            val all = myself.listRepositories(100, GHMyself.RepositoryListFilter.OWNER)
 
-            println("checking...")
-            val new = all.filter { it.createdAt.toInstant().atZone(ZoneOffset.UTC).toLocalDate() > last }.also { last = LocalDate.now(ZoneOffset.UTC) }
-            println("found ${new.size} new repos!")
-            for (repo in new) {
-                val embed = embed {
-                    color = "#202225"
+            for (repo in myself.listRepositories(100, GHMyself.RepositoryListFilter.OWNER)) {
+                when {
+                    repo.createdAt.toInstant().epochSecond >= last.toInstant().epochSecond -> {
+                        val embed = embed {
+                            color = "#202225"
 
-                    author {
-                        this.name = name
-                        this.iconUrl = avatar
+                            author {
+                                this.name = name
+                                this.iconUrl = avatar
+                            }
+
+                            title {
+                                this.text = "Created new repository: $name/${repo.name}"
+                                this.url = repo.httpTransportUrl
+                            }
+                        }
+
+                        request(
+                            method = "POST",
+                            baseUrl = rawHook,
+                            headers = mapOf("Content-Type" to "application/json"),
+                            content = """{ "embeds": [${embed.toJson().toString(2)}] }"""
+                        )
+
+                        runCatching { track(repo) }
                     }
 
-                    title {
-                        this.text = "[$name/${repo.name}] Created new repository"
-                        this.url = repo.httpTransportUrl
+                    cache.repos.none { it.id == repo.id } && repo.hooks.none { it.config["url"] == discordHook } -> {
+                        runCatching { track(repo) }
+                    }
+
+                    else -> {
+                        cache.repos.add((RepoCache.Repo(repo))).also { cacheUpdated = true }
                     }
                 }
-                request(
-                    method = "POST",
-                    baseUrl = rawHook,
-                    headers = mapOf("Content-Type" to "application/json"),
-                    content = """{ "embeds": [${embed.toJson().toString(2)}] }"""
-                )
             }
 
-            val untracked = all.filter { it.hooks.none { h -> h.config["url"] == discordHook } }
-            untracked.forEach(::track)
+            last = ZonedDateTime.now(ZoneOffset.UTC)
+            if (cacheUpdated) cacheFile.writeText(Yaml.default.encode(cache))
         }
     }
 
@@ -83,7 +109,7 @@ object RepoTracker {
             }
 
             title {
-                this.text = "[$name/${repo.name}] Started tracking repository"
+                this.text = "Started tracking: $name/${repo.name}"
                 this.url = repo.httpTransportUrl
             }
         }
@@ -94,7 +120,7 @@ object RepoTracker {
             content = """{ "embeds": [${embed.toJson().toString(2)}] }"""
         )
 
-        Thread.sleep(300)
+        cache.repos.add(RepoCache.Repo(repo)).also { cacheUpdated = true }
     }
 
 }
