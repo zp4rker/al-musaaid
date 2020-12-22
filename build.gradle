@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '0.6.4-alpha'
+version '0.6.5-alpha'
 
 def discoreVersion = "1.1.1-release"
 def jdaVersion = "4.2.0_223"
@@ -39,7 +39,7 @@ jar {
         attributes "Bot-Main": "com.zp4rker.almusaaid.AlMusaaidKt"
         attributes "Implementation-Version": project.version
 
-        attributes "Disbot-Version": discoreVersion
+        attributes "Discore-Version": discoreVersion
         attributes "JDA-Version": jdaVersion
     }
 }
