@@ -46,7 +46,7 @@ object RepoTracker {
         var last = ZonedDateTime.now(ZoneOffset.UTC)
         Timer().scheduleAtFixedRate(0, TimeUnit.MINUTES.toMillis(1)) {
 
-            for (repo in myself.listRepositories(100, GHMyself.RepositoryListFilter.OWNER)) {
+            for (repo in runCatching { myself.listRepositories(100, GHMyself.RepositoryListFilter.OWNER) }.getOrNull() ?: listOf<GHRepository>()) {
                 when {
                     repo.createdAt.toInstant().epochSecond >= last.toInstant().epochSecond -> {
                         val embed = embed {
