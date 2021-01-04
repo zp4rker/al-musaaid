@@ -1,5 +1,6 @@
 package com.zp4rker.almusaaid.trello
 
+import com.zp4rker.almusaaid.Trello
 import com.zp4rker.discore.API
 import com.zp4rker.discore.extenstions.embed
 import com.zp4rker.discore.extenstions.getComplex
@@ -10,12 +11,10 @@ import java.time.OffsetDateTime
 /**
  * @author zp4rker
  */
-class DataServer(trelloKey: String, trelloToken: String, private val channelId: Long) : Thread() {
+class DataServer(private val channelId: Long) : Thread() {
 
     private val serverSocket = ServerSocket(49718)
     var running = true
-
-    private val trelloData = TrelloData(trelloKey, trelloToken)
 
     override fun run() {
         while (running) {
@@ -51,8 +50,8 @@ class DataServer(trelloKey: String, trelloToken: String, private val channelId: 
             }
 
             "move_card_from_list_to_list" -> {
-                val cardData = trelloData.getCard(json.getComplex("action:data:card:id").toString())
-                val listName = trelloData.getList(cardData.getString("idList")).getString("name")
+                val cardData = Trello.getCard(json.getComplex("action:data:card:id").toString())
+                val listName = Trello.getList(cardData.getString("idList")).getString("name")
                 if (listName != "In Progress") embed()
                 else embed {
                     title { text = "Moved task to $listName" }
@@ -67,7 +66,7 @@ class DataServer(trelloKey: String, trelloToken: String, private val channelId: 
                 author { name = cardName }
                 color = defaultColour
 
-                val cardData = trelloData.getCard(json.getComplex("action:data:card:id").toString())
+                val cardData = Trello.getCard(json.getComplex("action:data:card:id").toString())
                 timestamp = OffsetDateTime.parse(cardData.getString("due"))
             }
 
