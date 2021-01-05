@@ -12,7 +12,7 @@ import com.zp4rker.almusaaid.command.audio.*
 import com.zp4rker.almusaaid.command.trello.TCardCommand
 import com.zp4rker.almusaaid.github.RepoTracker
 import com.zp4rker.almusaaid.trello.DataServer
-import com.zp4rker.almusaaid.trello.TrelloData
+import com.zp4rker.almusaaid.trello.TrelloApi
 import com.zp4rker.discore.API
 import com.zp4rker.discore.BOT
 import com.zp4rker.discore.Bot
@@ -36,7 +36,7 @@ lateinit var AHANDLER: AudioHandler
 lateinit var discordHook: String
 lateinit var githubAuth: String
 
-lateinit var Trello: TrelloData
+lateinit var Trello: TrelloApi
 
 fun main(args: Array<String>) {
     val trelloKey = args[1]
@@ -45,7 +45,7 @@ fun main(args: Array<String>) {
     discordHook = args[4]
     githubAuth = args[5]
 
-    Trello = TrelloData(trelloKey, trelloToken)
+    Trello = TrelloApi(trelloKey, trelloToken)
 
     val dataServer = DataServer(channelId)
 

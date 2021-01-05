@@ -6,7 +6,7 @@ import org.json.JSONObject
 /**
  * @author zp4rker
  */
-class TrelloData(private val trelloKey: String, private val trelloToken: String) {
+class TrelloApi(private val trelloKey: String, private val trelloToken: String) {
 
     fun getCard(cardId: String) = JSONObject(
         request(
