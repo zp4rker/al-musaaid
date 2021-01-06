@@ -1,6 +1,5 @@
 package com.zp4rker.almusaaid
 
-import com.charleskorn.kaml.Yaml
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
@@ -10,7 +9,6 @@ import com.zp4rker.almusaaid.audio.TrackHandler
 import com.zp4rker.almusaaid.command.PurgeCommand
 import com.zp4rker.almusaaid.command.audio.*
 import com.zp4rker.almusaaid.command.trello.TCardCommand
-import com.zp4rker.almusaaid.github.RepoTracker
 import com.zp4rker.almusaaid.trello.DataServer
 import com.zp4rker.almusaaid.trello.TrelloApi
 import com.zp4rker.discore.API
@@ -19,7 +17,6 @@ import com.zp4rker.discore.Bot
 import com.zp4rker.discore.bot
 import com.zp4rker.discore.extenstions.event.on
 import com.zp4rker.discore.extenstions.separator
-import com.zp4rker.discore.util.encode
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
@@ -67,7 +64,6 @@ fun main(args: Array<String>) {
 
         quit = {
             dataServer.kill()
-            with(RepoTracker) { if (cacheUpdated) cacheFile.writeText(Yaml.default.encode(cache)) }
         }
 
         commands = listOf(
@@ -91,5 +87,4 @@ fun main(args: Array<String>) {
     }
 
     dataServer.start()
-    RepoTracker.start()
 }
