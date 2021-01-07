@@ -21,6 +21,7 @@ import com.zp4rker.discore.extenstions.separator
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
+import net.dv8tion.jda.api.utils.cache.CacheFlag
 
 /**
  * @author zp4rker
@@ -64,6 +65,8 @@ fun main(args: Array<String>) {
         quit = {
             dataServer.kill()
         }
+
+        cache = CacheFlag.values().asList()
 
         commands = listOf(
             // Misc commands
