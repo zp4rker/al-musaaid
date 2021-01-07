@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import com.zp4rker.almusaaid.audio.AudioHandler
 import com.zp4rker.almusaaid.audio.TrackHandler
+import com.zp4rker.almusaaid.command.InfoCommand
 import com.zp4rker.almusaaid.command.PurgeCommand
 import com.zp4rker.almusaaid.command.TestCommand
 import com.zp4rker.almusaaid.command.audio.*
@@ -23,6 +24,7 @@ import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.cache.CacheFlag
+import java.time.Instant
 
 /**
  * @author zp4rker
@@ -36,6 +38,8 @@ lateinit var AHANDLER: AudioHandler
 lateinit var Trello: TrelloApi
 
 lateinit var IdeaListId: String
+
+val startTime: Instant = Instant.now()
 
 fun main(args: Array<String>) {
     val trelloKey = args[1]
@@ -72,6 +76,7 @@ fun main(args: Array<String>) {
         commands = listOf(
             // Misc commands
             TestCommand,
+            InfoCommand,
             PurgeCommand,
             // Audio commands
             QueueCommand,
