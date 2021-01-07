@@ -8,8 +8,9 @@ import org.json.JSONObject
  * @author zp4rker
  */
 class TrelloApi(private val trelloKey: String, private val trelloToken: String) {
-
     private val baseUrl = "https://api.trello.com/1"
+
+    /* GET functions */
 
     fun getCard(cardId: String) = JSONObject(
         request(
@@ -41,12 +42,12 @@ class TrelloApi(private val trelloKey: String, private val trelloToken: String) 
         )
     )
 
-    fun getLists(boardId: String) = JSONArray(
+    fun getLists(boardId: String, cardsField: String = "open") = JSONArray(
         request(
             "GET", "$baseUrl/boards/$boardId/lists", mapOf(
                 "key" to trelloKey,
                 "token" to trelloToken,
-                "cards" to "open"
+                "cards" to cardsField
             )
         )
     )
@@ -67,6 +68,21 @@ class TrelloApi(private val trelloKey: String, private val trelloToken: String) 
                 "key" to trelloKey,
                 "token" to trelloToken
             )
+        )
+    )
+
+    /* POST functions */
+
+    fun createCard(listId: String, name: String, desc: String? = null, pos: String = "bottom") = request(
+        "POST", "$baseUrl/cards", mapOf(
+            "key" to trelloKey,
+            "token" to trelloToken,
+
+            "idList" to listId,
+
+            "name" to name,
+            "desc" to desc,
+            "pos" to if (pos.toCharArray().all(Char::isDigit)) pos.toInt() else pos
         )
     )
 

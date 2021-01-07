@@ -19,15 +19,15 @@ object TestCommand : Command(aliases = arrayOf("test")) {
         channel.sendMessage(result.joinToString { it.getString("name") }).queue()
 
         val ideasBoard = result.find { it.getString("name") == "Ideas" } ?: return
-        val lists = Trello.getLists(ideasBoard.getString("id")).map { it as JSONObject }
+        val lists = Trello.getLists(ideasBoard.getString("id"), "none").map { it as JSONObject }
 
         channel.sendMessage("${lists.size}").queue()
         channel.sendMessage(lists.joinToString { it.getString("name") }).queue()
 
         val rawIdeasList = lists.find { it.getString("name") == "Raw Ideas" } ?: return
-        val cards = rawIdeasList.getJSONArray("cards").map { it as JSONObject }
 
-        channel.sendMessage("${cards.size}").queue()
-        channel.sendMessage(cards.joinToString { "${it.getString("id")} - ${it.getString("name")}" }).queue()
+        channel.sendMessage(rawIdeasList.getString("id")).queue()
+
+        Trello.createCard(rawIdeasList.getString("id"), "Test card", "Test description")
     }
 }

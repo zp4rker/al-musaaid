@@ -9,7 +9,7 @@ import com.zp4rker.almusaaid.audio.TrackHandler
 import com.zp4rker.almusaaid.command.PurgeCommand
 import com.zp4rker.almusaaid.command.TestCommand
 import com.zp4rker.almusaaid.command.audio.*
-import com.zp4rker.almusaaid.command.trello.TCardCommand
+import com.zp4rker.almusaaid.listener.trello.TrelloListeners
 import com.zp4rker.almusaaid.trello.DataServer
 import com.zp4rker.almusaaid.trello.TrelloApi
 import com.zp4rker.discore.API
@@ -33,10 +33,13 @@ lateinit var AHANDLER: AudioHandler
 
 lateinit var Trello: TrelloApi
 
+lateinit var IdeaListId: String
+
 fun main(args: Array<String>) {
     val trelloKey = args[1]
     val trelloToken = args[2]
     val channelId = args[3].toLong()
+    IdeaListId = args[4]
 
     Trello = TrelloApi(trelloKey, trelloToken)
 
@@ -63,8 +66,6 @@ fun main(args: Array<String>) {
         }
 
         commands = listOf(
-            // Trello commands
-            TCardCommand,
             // Misc commands
             TestCommand,
             PurgeCommand,
@@ -84,4 +85,5 @@ fun main(args: Array<String>) {
     }
 
     dataServer.start()
+    TrelloListeners.register()
 }
