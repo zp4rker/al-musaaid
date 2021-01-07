@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import com.zp4rker.almusaaid.audio.AudioHandler
 import com.zp4rker.almusaaid.audio.TrackHandler
 import com.zp4rker.almusaaid.command.PurgeCommand
+import com.zp4rker.almusaaid.command.TestCommand
 import com.zp4rker.almusaaid.command.audio.*
 import com.zp4rker.almusaaid.command.trello.TCardCommand
 import com.zp4rker.almusaaid.trello.DataServer
@@ -30,17 +31,12 @@ lateinit var PMANAGER: AudioPlayerManager
 lateinit var TSCHEDULER: TrackHandler
 lateinit var AHANDLER: AudioHandler
 
-lateinit var discordHook: String
-lateinit var githubAuth: String
-
 lateinit var Trello: TrelloApi
 
 fun main(args: Array<String>) {
     val trelloKey = args[1]
     val trelloToken = args[2]
     val channelId = args[3].toLong()
-    discordHook = args[4]
-    githubAuth = args[5]
 
     Trello = TrelloApi(trelloKey, trelloToken)
 
@@ -70,6 +66,7 @@ fun main(args: Array<String>) {
             // Trello commands
             TCardCommand,
             // Misc commands
+            TestCommand,
             PurgeCommand,
             // Audio commands
             QueueCommand,

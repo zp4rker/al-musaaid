@@ -3,10 +3,10 @@ package com.zp4rker.almusaaid.command.trello
 import com.zp4rker.almusaaid.Trello
 import com.zp4rker.discore.command.Command
 import com.zp4rker.discore.extenstions.embed
+import com.zp4rker.discore.util.unicodify
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
-import java.time.OffsetDateTime
 
 /**
  * @author zp4rker
@@ -15,6 +15,7 @@ object TCardCommand : Command(aliases = arrayOf("tcard", "tcardinfo", "trellocar
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val id = args[0]
+        message.addReaction(":mag:".unicodify()).queue()
         val data = Trello.getCard(id)
 
         val embed = embed {
@@ -39,6 +40,8 @@ object TCardCommand : Command(aliases = arrayOf("tcard", "tcardinfo", "trellocar
                 text = data.getString("idBoard")
             }
         }
+
+        message.addReaction(":arrows_counterclockwise:".unicodify()).queue()
 
         channel.sendMessage(embed).queue()
     }
