@@ -54,7 +54,6 @@ object IdeaListener {
 
         if (original.reactions.none { it.reactionEmote.name == emote }) return
 
-        original.clearReactions().queue()
         reply.addReaction(emote).queue()
     }
 
