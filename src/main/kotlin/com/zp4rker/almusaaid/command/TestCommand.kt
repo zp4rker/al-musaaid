@@ -2,6 +2,7 @@ package com.zp4rker.almusaaid.command
 
 import com.zp4rker.almusaaid.Trello
 import com.zp4rker.discore.command.Command
+import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 import org.json.JSONObject
@@ -9,7 +10,7 @@ import org.json.JSONObject
 /**
  * @author zp4rker
  */
-object TestCommand : Command(aliases = arrayOf("test")) {
+object TestCommand : Command(aliases = arrayOf("test"), permission = Permission.ADMINISTRATOR) {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val result = Trello.getBoards(Trello.getSelfMember().getString("id")).map { it as JSONObject }.filter {
