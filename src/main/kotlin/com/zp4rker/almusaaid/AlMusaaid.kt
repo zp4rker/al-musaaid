@@ -9,7 +9,7 @@ import com.zp4rker.almusaaid.audio.TrackHandler
 import com.zp4rker.almusaaid.command.PurgeCommand
 import com.zp4rker.almusaaid.command.TestCommand
 import com.zp4rker.almusaaid.command.audio.*
-import com.zp4rker.almusaaid.listener.ReminderListener
+import com.zp4rker.almusaaid.listener.Listeners
 import com.zp4rker.almusaaid.listener.trello.TrelloListeners
 import com.zp4rker.almusaaid.trello.DataServer
 import com.zp4rker.almusaaid.trello.TrelloApi
@@ -90,5 +90,5 @@ fun main(args: Array<String>) {
 
     dataServer.start()
     TrelloListeners.register()
-    ReminderListener.register()
+    Listeners.register()
 }

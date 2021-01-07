@@ -13,7 +13,7 @@ import kotlin.concurrent.timer
 /**
  * @author zp4rker
  */
-object ReminderListener {
+object Reminders {
 
     private val msgRegex = Regex("remind me to (.*) in (.*)")
     private val timeRegex = Regex("(\\d+[ ]?[^\\d^\\s^,]+)")
