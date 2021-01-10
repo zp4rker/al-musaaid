@@ -6,14 +6,15 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '0.11.0-release'
+version '0.11.1-release'
 
-def discoreVersion = "1.1.4-release"
+def discoreVersion = "1.1.6-release"
 def jdaVersion = "4.2.0_225"
 
 repositories {
     mavenCentral()
     jcenter()
+    mavenLocal()
 }
 
 dependencies {
