@@ -14,7 +14,6 @@ def jdaVersion = "4.2.0_225"
 repositories {
     mavenCentral()
     jcenter()
-    mavenLocal()
 }
 
 dependencies {
