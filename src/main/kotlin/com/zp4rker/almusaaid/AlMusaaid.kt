@@ -91,12 +91,15 @@ fun main() {
     }
 
     API.on<ReadyEvent> {
+        dataServer.start()
+
+        TrelloListeners.register()
+        Listeners.register()
+
+        API.getUserByTag("zp4rker#3333")!!.openPrivateChannel().complete()
+
         BOT.logger.separator()
         BOT.logger.info("Ready to serve!")
         BOT.logger.separator()
     }
-
-    dataServer.start()
-    TrelloListeners.register()
-    Listeners.register()
 }
