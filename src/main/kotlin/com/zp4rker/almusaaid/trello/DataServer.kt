@@ -11,7 +11,7 @@ import java.time.OffsetDateTime
 /**
  * @author zp4rker
  */
-class DataServer(private val channelId: Long) : Thread() {
+class DataServer(private val channelId: String) : Thread() {
 
     private val serverSocket = ServerSocket(49718)
     var running = true

@@ -11,3 +11,4 @@ gradlew
 
 # project #
 logs/
+config.yml

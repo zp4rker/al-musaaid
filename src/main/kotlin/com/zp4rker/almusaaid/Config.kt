@@ -1,0 +1,27 @@
+package com.zp4rker.almusaaid
+
+import com.zp4rker.discore.storage.BotConfig
+import kotlinx.serialization.Serializable
+
+/**
+ * @author zp4rker
+ */
+@Serializable
+data class Config(
+    val botSettings: BotConfig = BotConfig("Al-Musā'id"),
+    val trelloConf: TrelloConf = TrelloConf()
+) {
+
+    @Serializable
+    data class TrelloConf(
+        val key: String = "insert key",
+        val token: String = "insert token",
+        val channel: String = "19851581954509",
+        val ideaListId: String = "insert idea list id"
+    )
+
+    companion object {
+        val default = Config()
+    }
+
+}

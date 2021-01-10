@@ -20,15 +20,18 @@ import com.zp4rker.discore.Bot
 import com.zp4rker.discore.bot
 import com.zp4rker.discore.extenstions.event.on
 import com.zp4rker.discore.extenstions.separator
+import com.zp4rker.discore.util.loadYamlOrDefault
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.cache.CacheFlag
+import java.io.File
 import java.time.Instant
 
 /**
  * @author zp4rker
  */
+val config = loadYamlOrDefault<Config>(File("config.yml"))
 
 lateinit var PLAYER: AudioPlayer
 lateinit var PMANAGER: AudioPlayerManager
@@ -41,11 +44,11 @@ lateinit var IdeaListId: String
 
 val startTime: Instant = Instant.now()
 
-fun main(args: Array<String>) {
-    val trelloKey = args[1]
-    val trelloToken = args[2]
-    val channelId = args[3].toLong()
-    IdeaListId = args[4]
+fun main() {
+    val trelloKey = config.trelloConf.key
+    val trelloToken = config.trelloConf.token
+    val channelId = config.trelloConf.channel
+    IdeaListId = config.trelloConf.ideaListId
 
     Trello = TrelloApi(trelloKey, trelloToken)
 
@@ -57,10 +60,10 @@ fun main(args: Array<String>) {
     AHANDLER = AudioHandler()
 
     bot {
-        name = "Al-Musā'id"
+        name = config.botSettings.name
         version = Bot::class.java.`package`.implementationVersion
 
-        token = args[0]
+        token = config.botSettings.token
         prefix = "/"
 
         activity = Activity.listening("your commands...")
