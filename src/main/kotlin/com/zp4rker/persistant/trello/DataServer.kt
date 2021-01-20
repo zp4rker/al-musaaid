@@ -1,6 +1,6 @@
-package com.zp4rker.almusaaid.trello
+package com.zp4rker.persistant.trello
 
-import com.zp4rker.almusaaid.Trello
+import com.zp4rker.persistant.Trello
 import com.zp4rker.discore.API
 import com.zp4rker.discore.extenstions.embed
 import com.zp4rker.discore.extenstions.getComplex

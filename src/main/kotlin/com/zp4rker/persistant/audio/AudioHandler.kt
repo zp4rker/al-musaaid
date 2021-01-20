@@ -1,7 +1,7 @@
-package com.zp4rker.almusaaid.audio
+package com.zp4rker.persistant.audio
 
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame
-import com.zp4rker.almusaaid.PLAYER
+import com.zp4rker.persistant.PLAYER
 import net.dv8tion.jda.api.audio.AudioSendHandler
 import java.nio.ByteBuffer
 

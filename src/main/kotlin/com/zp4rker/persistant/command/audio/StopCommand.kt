@@ -1,7 +1,7 @@
-package com.zp4rker.almusaaid.command.audio
+package com.zp4rker.persistant.command.audio
 
-import com.zp4rker.almusaaid.PLAYER
-import com.zp4rker.almusaaid.TSCHEDULER
+import com.zp4rker.persistant.PLAYER
+import com.zp4rker.persistant.TSCHEDULER
 import com.zp4rker.discore.command.Command
 import com.zp4rker.discore.extenstions.embed
 import net.dv8tion.jda.api.entities.Message

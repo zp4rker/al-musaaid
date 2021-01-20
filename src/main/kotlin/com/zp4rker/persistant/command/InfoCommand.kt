@@ -1,6 +1,6 @@
-package com.zp4rker.almusaaid.command
+package com.zp4rker.persistant.command
 
-import com.zp4rker.almusaaid.startTime
+import com.zp4rker.persistant.startTime
 import com.zp4rker.discore.API
 import com.zp4rker.discore.MANIFEST
 import com.zp4rker.discore.command.Command

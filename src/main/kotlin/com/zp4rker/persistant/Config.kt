@@ -1,4 +1,4 @@
-package com.zp4rker.almusaaid
+package com.zp4rker.persistant
 
 import com.zp4rker.discore.storage.BotConfig
 import kotlinx.serialization.Serializable
@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class Config(
-    val botSettings: BotConfig = BotConfig("Al-Musā'id"),
+    val botSettings: BotConfig = BotConfig(),
     val trelloConf: TrelloConf = TrelloConf()
 ) {
 

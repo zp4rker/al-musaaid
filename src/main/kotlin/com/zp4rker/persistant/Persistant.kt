@@ -1,25 +1,22 @@
-package com.zp4rker.almusaaid
+package com.zp4rker.persistant
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
-import com.zp4rker.almusaaid.audio.AudioHandler
-import com.zp4rker.almusaaid.audio.TrackHandler
-import com.zp4rker.almusaaid.command.InfoCommand
-import com.zp4rker.almusaaid.command.PurgeCommand
-import com.zp4rker.almusaaid.command.TestCommand
-import com.zp4rker.almusaaid.command.audio.*
-import com.zp4rker.almusaaid.listener.Listeners
-import com.zp4rker.almusaaid.listener.trello.TrelloListeners
-import com.zp4rker.almusaaid.trello.DataServer
-import com.zp4rker.almusaaid.trello.TrelloApi
+import com.zp4rker.persistant.audio.AudioHandler
+import com.zp4rker.persistant.audio.TrackHandler
+import com.zp4rker.persistant.command.InfoCommand
+import com.zp4rker.persistant.command.PurgeCommand
+import com.zp4rker.persistant.command.audio.*
+import com.zp4rker.persistant.listener.Listeners
+import com.zp4rker.persistant.listener.trello.TrelloListeners
+import com.zp4rker.persistant.trello.DataServer
+import com.zp4rker.persistant.trello.TrelloApi
 import com.zp4rker.discore.API
-import com.zp4rker.discore.BOT
-import com.zp4rker.discore.Bot
+import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.bot
 import com.zp4rker.discore.extenstions.event.on
-import com.zp4rker.discore.extenstions.separator
 import com.zp4rker.discore.util.loadYamlOrDefault
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
@@ -60,8 +57,7 @@ fun main() {
     AHANDLER = AudioHandler()
 
     bot {
-        name = config.botSettings.name
-        version = Bot::class.java.`package`.implementationVersion
+        name = "Persistant"
 
         token = config.botSettings.token
         prefix = "/"
@@ -78,7 +74,6 @@ fun main() {
 
         commands = listOf(
             // Misc commands
-            TestCommand,
             InfoCommand,
             PurgeCommand,
             // Audio commands
@@ -98,8 +93,6 @@ fun main() {
 
         API.getUserByTag("zp4rker#3333")!!.openPrivateChannel().complete()
 
-        BOT.logger.separator()
-        BOT.logger.info("Ready to serve!")
-        BOT.logger.separator()
+        LOGGER.info("Ready to serve!")
     }
 }

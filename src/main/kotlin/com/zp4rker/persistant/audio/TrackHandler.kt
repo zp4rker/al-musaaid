@@ -1,10 +1,10 @@
-package com.zp4rker.almusaaid.audio
+package com.zp4rker.persistant.audio
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
-import com.zp4rker.almusaaid.PLAYER
+import com.zp4rker.persistant.PLAYER
 import com.zp4rker.discore.API
 import com.zp4rker.discore.extenstions.embed
 import net.dv8tion.jda.api.entities.TextChannel

@@ -1,9 +1,8 @@
-package com.zp4rker.almusaaid.listener.trello
+package com.zp4rker.persistant.listener.trello
 
-import com.zp4rker.almusaaid.IdeaListId
-import com.zp4rker.almusaaid.Trello
+import com.zp4rker.persistant.IdeaListId
+import com.zp4rker.persistant.Trello
 import com.zp4rker.discore.API
-import com.zp4rker.discore.BOT
 import com.zp4rker.discore.extenstions.event.Predicate
 import com.zp4rker.discore.extenstions.event.expect
 import com.zp4rker.discore.extenstions.event.on

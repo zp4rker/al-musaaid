@@ -1,4 +1,4 @@
-package com.zp4rker.almusaaid.audio
+package com.zp4rker.persistant.audio
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import net.dv8tion.jda.api.entities.TextChannel

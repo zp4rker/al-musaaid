@@ -1,11 +1,8 @@
-package com.zp4rker.almusaaid.listener
+package com.zp4rker.persistant.listener
 
 import com.zp4rker.discore.API
 import com.zp4rker.discore.extenstions.event.on
-import com.zp4rker.discore.util.emotify
 import com.zp4rker.discore.util.unicodify
-import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.SelfUser
 import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionAddEvent
 

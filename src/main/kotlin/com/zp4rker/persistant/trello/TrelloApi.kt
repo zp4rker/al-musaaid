@@ -1,6 +1,6 @@
-package com.zp4rker.almusaaid.trello
+package com.zp4rker.persistant.trello
 
-import com.zp4rker.almusaaid.http.request
+import com.zp4rker.persistant.http.request
 import org.json.JSONArray
 import org.json.JSONObject
 

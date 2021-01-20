@@ -1,4 +1,4 @@
-package com.zp4rker.almusaaid.command
+package com.zp4rker.persistant.command
 
 import com.zp4rker.discore.command.Command
 import com.zp4rker.discore.extenstions.author

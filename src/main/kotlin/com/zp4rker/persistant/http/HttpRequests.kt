@@ -1,6 +1,5 @@
-package com.zp4rker.almusaaid.http
+package com.zp4rker.persistant.http
 
-import com.zp4rker.discore.BOT
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
