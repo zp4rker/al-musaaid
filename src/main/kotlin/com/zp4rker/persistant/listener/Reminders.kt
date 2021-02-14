@@ -35,6 +35,7 @@ object Reminders {
     }
 
     private fun remind(message: Message, task: String, millis: Long) {
+        message.addReaction(":thumbsup:".unicodify()).queue()
         Timer().schedule(millis) {
             message.channel.sendMessage("${if (message.channelType != ChannelType.PRIVATE) "${message.author.asMention} " else ""}$task").queue()
         }
@@ -58,8 +59,8 @@ object Reminders {
 
         val timeComponents = timeRegex.matchEntire(timeRaw)?.groupValues?.filter { it != m.contentRaw } ?: return
 
-        val hour = timeComponents[0].toInt()
-        val minute = timeComponents[1].toInt()
+        val hour = timeComponents[1].toInt()
+        val minute = timeComponents[2].toInt()
 
         var time = OffsetDateTime.from(currentTime).withHour(hour).withMinute(minute)
         if (time.isBefore(currentTime)) time = time.plusDays(1)
