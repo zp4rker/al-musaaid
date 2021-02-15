@@ -81,6 +81,7 @@ fun main() {
             PlayCommand,
             PauseCommand,
             ResumeCommand,
+            JumpCommand,
             StopCommand
         )
     }
