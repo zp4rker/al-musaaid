@@ -24,6 +24,7 @@ fun request(
     with(url.openConnection() as HttpURLConnection) {
         requestMethod = method.toUpperCase()
         headers.forEach { addRequestProperty(it.key, it.value) }
+        addRequestProperty("User-Agent", "Persistant;1.0")
         content?.let {
             doOutput = true
             outputStream.use { os -> os.writer().use { wr -> wr.write(content) } }
