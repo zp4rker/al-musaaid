@@ -30,11 +30,9 @@ fun request(
             outputStream.use { os -> os.writer().use { wr -> wr.write(content) } }
         }
 
-        val response = runCatching { inputStream.use { it.reader().use { r -> r.readText() } } }.getOrNull() ?: ""
-
-        errorStream?.use {
-            println(it.reader().use { r -> r.readText() })
-        }
+        val response = runCatching { inputStream.use { it.reader().use { r -> r.readText() } } }.getOrNull() ?: errorStream?.use {
+            it.reader().use { r -> r.readText() }
+        } ?: ""
 
         return response
     }
