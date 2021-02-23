@@ -97,7 +97,7 @@ fun main(args: Array<String>) {
         TrelloListeners.register()
         Listeners.register()
 
-        API.getUserByTag("zp4rker#3333")!!.openPrivateChannel().complete()
+        API.getUserByTag(config.owner)!!.openPrivateChannel().complete()
 
         LOGGER.info("Ready to serve!")
     }

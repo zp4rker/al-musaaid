@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class Config(
+    val owner: String = "zp4rker#3333",
     val botSettings: BotConfig = BotConfig(),
     val trelloConf: TrelloConf = TrelloConf()
 ) {

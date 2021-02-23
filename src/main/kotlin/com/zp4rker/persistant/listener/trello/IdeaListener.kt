@@ -7,6 +7,7 @@ import com.zp4rker.discore.extenstions.event.Predicate
 import com.zp4rker.discore.extenstions.event.expect
 import com.zp4rker.discore.extenstions.event.on
 import com.zp4rker.discore.util.unicodify
+import com.zp4rker.persistant.config
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent
@@ -21,7 +22,7 @@ object IdeaListener {
 
     fun register() {
         API.on<GuildMessageReceivedEvent> { e ->
-            if (e.author.asTag != "zp4rker#3333") return@on
+            if (e.author.asTag != config.owner) return@on
             if (e.channel.name != "idea-hub") return@on
             e.channel.parent?.let { if (it.name != "private") return@on } ?: return@on
 
@@ -31,11 +32,11 @@ object IdeaListener {
             }
 
             e.message.addReaction(emote).queue()
-            e.channel.expect<GuildMessageReactionAddEvent>({ it.reactionEmote.name == emote && it.user.asTag == "zp4rker#3333" }) {
+            e.channel.expect<GuildMessageReactionAddEvent>({ it.reactionEmote.name == emote && it.user.asTag == config.owner }) {
                 val m = e.channel.sendMessage("Please reply to this message with the name of the idea ${":grin:".unicodify()}").complete()
                 val content = collectContent(it.retrieveMessage().complete())
                 val pred: Predicate<GuildMessageReceivedEvent> = { e2 ->
-                    e2.message.referencedMessage == m && e2.author.asTag == "zp4rker#3333"
+                    e2.message.referencedMessage == m && e2.author.asTag == config.owner
                 }
                 e.channel.expect(pred) { e2 ->
                     Trello.createCard(IdeaListId, e2.message.contentRaw, content.joinToString("\n") { m -> m.contentRaw })

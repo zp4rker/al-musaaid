@@ -4,6 +4,7 @@ import com.zp4rker.discore.API
 import com.zp4rker.discore.extenstions.event.expect
 import com.zp4rker.discore.extenstions.event.on
 import com.zp4rker.discore.util.unicodify
+import com.zp4rker.persistant.config
 import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
@@ -29,7 +30,7 @@ object Reminders {
 
     fun register() {
         API.on<MessageReceivedEvent> { e ->
-            if (e.author.asTag != "zp4rker#3333") return@on
+            if (e.author.asTag != config.owner) return@on
 
             if (!againRegex.matches(e.message.contentRaw)) {
                 if (inRegex.matches(e.message.contentRaw)) remindIn(e.message)

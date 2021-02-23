@@ -6,6 +6,7 @@ import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.MANIFEST
 import com.zp4rker.discore.command.Command
 import com.zp4rker.discore.extenstions.embed
+import com.zp4rker.persistant.config
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 import java.lang.StringBuilder
@@ -19,7 +20,7 @@ object InfoCommand : Command(aliases = arrayOf("info")) {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val self = API.selfUser
-        val creator = API.getUserByTag("zp4rker#3333") ?: return
+        val creator = API.getUserByTag(config.owner) ?: return
         val runtime = Instant.now().epochSecond - startTime.epochSecond
 
         val embed = embed {
