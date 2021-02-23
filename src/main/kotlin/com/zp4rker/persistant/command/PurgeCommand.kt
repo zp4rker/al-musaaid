@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
  * @author zp4rker
  */
 object PurgeCommand :
-    Command(aliases = arrayOf("purge", "clear"), minArgs = 1, permission = Permission.MESSAGE_MANAGE) {
+    Command(aliases = arrayOf("purge", "clear"), args = arrayOf("(?:all)|\\d+"), permission = Permission.MESSAGE_MANAGE) {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val amount = if (args[0] == "all") -1 else args[0].toInt()
@@ -45,7 +45,7 @@ object PurgeCommand :
             channel.purgeMessages(allMessages).last().get().also { total += allMessages.size - 1 }
         }
 
-        channel.sendMessage(embed(author = author { name = "Purged $total messages." })).queue {
+        channel.sendMessage(embed(author = author { name = "Purged $total message${if (total == 1) "" else "s"}." })).queue {
             it.delete().queueAfter(5, TimeUnit.SECONDS)
         }
     }

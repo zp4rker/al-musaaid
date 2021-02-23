@@ -6,21 +6,21 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '0.11.7'
+version '0.11.7-dev'
 
-def discoreVersion = "1.2.4-release"
+def discoreVersion = "2.0.0"
 def jdaVersion = "4.2.0_227"
 
 repositories {
     mavenCentral()
     jcenter()
+    mavenLocal()
 }
 
 dependencies {
-    shadow ("com.zp4rker:discore:$discoreVersion") { transitive = false }
-
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile "com.zp4rker:discore:$discoreVersion"
+    compile "net.dv8tion:JDA:$jdaVersion"
 
     compile "com.sedmelluq:lavaplayer:1.3.61"
 }
@@ -31,10 +31,7 @@ compileKotlin {
 
 jar {
     manifest {
-        attributes "Main-Class": "com.zp4rker.discore.bootstrap.Main"
-        attributes "Class-Path": "lib/"
-
-        attributes "Bot-Main": "com.zp4rker.persistant.PersistantKt"
+        attributes "Main-Class": "com.zp4rker.persistant.PersistantKt"
         attributes "Implementation-Version": project.version
 
         attributes "Discore-Version": discoreVersion
@@ -45,7 +42,7 @@ jar {
 shadowJar {
     archiveClassifier.set("")
 
-    configurations = [project.configurations.shadow]
+    configurations = [project.configurations.compile]
 }
 
 build.dependsOn "shadowJar"

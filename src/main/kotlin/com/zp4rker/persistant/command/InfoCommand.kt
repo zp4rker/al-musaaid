@@ -2,6 +2,7 @@ package com.zp4rker.persistant.command
 
 import com.zp4rker.persistant.startTime
 import com.zp4rker.discore.API
+import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.MANIFEST
 import com.zp4rker.discore.command.Command
 import com.zp4rker.discore.extenstions.embed
@@ -52,6 +53,10 @@ object InfoCommand : Command(aliases = arrayOf("info")) {
                 iconUrl = creator.avatarUrl
             }
         }
+
+        LOGGER.debug("should be sending embed")
+
+        channel.sendMessage(embed).queue()
     }
 
     private fun displayTime(seconds: Long): String {

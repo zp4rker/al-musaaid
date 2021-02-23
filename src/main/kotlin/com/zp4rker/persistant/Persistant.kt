@@ -18,6 +18,8 @@ import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.bot
 import com.zp4rker.discore.extenstions.event.on
 import com.zp4rker.discore.util.loadYamlOrDefault
+import com.zp4rker.log4kt.Log4KtLoggerFactory
+import com.zp4rker.persistant.command.NotifyCommand
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
@@ -41,7 +43,9 @@ lateinit var IdeaListId: String
 
 val startTime: Instant = Instant.now()
 
-fun main() {
+fun main(args: Array<String>) {
+    if (args.any { it.equals("-debug", true) }) Log4KtLoggerFactory.debugEnabled = true
+
     val trelloKey = config.trelloConf.key
     val trelloToken = config.trelloConf.token
     val channelId = config.trelloConf.channel
@@ -60,7 +64,7 @@ fun main() {
         name = "Persistant"
 
         token = config.botSettings.token
-        prefix = "/"
+        prefix = config.botSettings.prefix
 
         activity = Activity.listening("your commands...")
 
@@ -76,6 +80,7 @@ fun main() {
             // Misc commands
             InfoCommand,
             PurgeCommand,
+            NotifyCommand,
             // Audio commands
             QueueCommand,
             PlayCommand,

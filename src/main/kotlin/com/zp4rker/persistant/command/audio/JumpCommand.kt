@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 /**
  * @author zp4rker
  */
-object JumpCommand : Command(aliases = arrayOf("jump", "j"), minArgs = 1) {
+object JumpCommand : Command(aliases = arrayOf("jump", "j"), args = arrayOf("")) {
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val track = PLAYER.playingTrack ?: run {
             channel.sendMessage(embed {
