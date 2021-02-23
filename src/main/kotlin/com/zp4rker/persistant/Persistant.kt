@@ -19,6 +19,7 @@ import com.zp4rker.discore.bot
 import com.zp4rker.discore.extenstions.event.on
 import com.zp4rker.discore.util.loadYamlOrDefault
 import com.zp4rker.log4kt.Log4KtLoggerFactory
+import com.zp4rker.persistant.command.ArchiveCommand
 import com.zp4rker.persistant.command.NotifyCommand
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
@@ -80,6 +81,7 @@ fun main(args: Array<String>) {
             // Misc commands
             InfoCommand,
             PurgeCommand,
+            ArchiveCommand,
             NotifyCommand,
             // Audio commands
             QueueCommand,
