@@ -1,11 +1,11 @@
 package com.zp4rker.persistant.listener
 
 import com.zp4rker.discore.API
+import com.zp4rker.discore.extenstions.event.expect
 import com.zp4rker.discore.extenstions.event.on
 import com.zp4rker.discore.util.unicodify
 import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.entities.Message
-import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import java.time.OffsetDateTime
 import java.time.ZoneId
@@ -23,21 +23,35 @@ object Reminders {
 
     private val inRegex = Regex("remind me(?: to)? (.*) in (.*)")
     private val atRegex = Regex("remind me(?: to)? (.*) at (.*)")
+    private val againRegex = Regex("remind me again in (.*)")
     private val durationRegex = Regex("(\\d+[ ]?[^\\d^\\s^,]+)")
     private val timeRegex = Regex("(\\d{1,2})[:, ]?(\\d{1,2})")
 
     fun register() {
         API.on<MessageReceivedEvent> { e ->
             if (e.author.asTag != "zp4rker#3333") return@on
-            if (inRegex.matches(e.message.contentRaw)) remindIn(e.message)
-            else if (atRegex.matches(e.message.contentRaw)) remindAt(e.message)
+
+            if (!againRegex.matches(e.message.contentRaw)) {
+                if (inRegex.matches(e.message.contentRaw)) remindIn(e.message)
+                else if (atRegex.matches(e.message.contentRaw)) remindAt(e.message)
+            }
         }
     }
 
     private fun remind(message: Message, task: String, millis: Long) {
         message.addReaction(":thumbsup:".unicodify()).queue()
         Timer().schedule(millis) {
-            message.channel.sendMessage("${if (message.channelType != ChannelType.PRIVATE) "${message.author.asMention} " else ""}$task").queue()
+            message.channel.sendMessage("${if (message.channelType != ChannelType.PRIVATE) "${message.author.asMention} " else ""}$task").queue {
+                message.channel.expect<MessageReceivedEvent>({ e -> e.message.referencedMessage == it && againRegex.matches(e.message.contentRaw) }, timeout = 5, timeoutUnit = TimeUnit.MINUTES) { e ->
+                    val matches = againRegex.matchEntire(e.message.contentRaw)?.groupValues?.filter { s -> s != e.message.contentRaw } ?: return@expect
+                    val timeRaw = matches[0]
+
+                    val timeComponents = durationRegex.findAll(timeRaw).toList().also { list -> if (list.isEmpty()) return@expect }.map { c -> c.value }
+                    val ms = componentsToMillis(timeComponents)
+
+                    remind(e.message, task, ms)
+                }
+            }
         }
     }
 
