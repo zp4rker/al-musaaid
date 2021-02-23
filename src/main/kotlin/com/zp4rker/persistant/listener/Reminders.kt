@@ -21,8 +21,8 @@ object Reminders {
 
     private val currentTime: OffsetDateTime get() = OffsetDateTime.now(ZoneId.of("Australia/Sydney"))
 
-    private val inRegex = Regex("remind me to (.*) in (.*)")
-    private val atRegex = Regex("remind me to (.*) at (.*)")
+    private val inRegex = Regex("remind me (?:to)? (.*) in (.*)")
+    private val atRegex = Regex("remind me (?:to)? (.*) at (.*)")
     private val durationRegex = Regex("(\\d+[ ]?[^\\d^\\s^,]+)")
     private val timeRegex = Regex("(\\d{1,2})[:, ]?(\\d{1,2})")
 
