@@ -62,9 +62,9 @@ object InfoCommand : Command(aliases = arrayOf("info")) {
 
     private fun displayTime(seconds: Long): String {
         var mutableSecs = seconds
-        val days = TimeUnit.MILLISECONDS.toDays(mutableSecs).also { mutableSecs -= TimeUnit.DAYS.toMillis(it) }
-        val hours = TimeUnit.MILLISECONDS.toHours(mutableSecs).also { mutableSecs -= TimeUnit.HOURS.toMillis(it) }
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(mutableSecs).also { mutableSecs -= TimeUnit.MINUTES.toMillis(it) }
+        val days = TimeUnit.SECONDS.toDays(mutableSecs).also { mutableSecs -= TimeUnit.DAYS.toMillis(it) }
+        val hours = TimeUnit.SECONDS.toHours(mutableSecs).also { mutableSecs -= TimeUnit.HOURS.toMillis(it) }
+        val minutes = TimeUnit.SECONDS.toMinutes(mutableSecs).also { mutableSecs -= TimeUnit.MINUTES.toMillis(it) }
         return StringBuilder().apply {
             if (days > 0) append("${days}d")
             if (hours > 0) append("${hours}d")
