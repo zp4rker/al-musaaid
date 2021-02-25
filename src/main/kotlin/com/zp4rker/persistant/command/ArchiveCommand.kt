@@ -1,14 +1,15 @@
 package com.zp4rker.persistant.command
 
 import com.zp4rker.discore.API
+import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.command.Command
-import com.zp4rker.discore.extenstions.awaitMessages
 import com.zp4rker.discore.extenstions.event.expect
 import com.zp4rker.persistant.config
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -22,18 +23,24 @@ object ArchiveCommand : Command(aliases = arrayOf("archive"), permission = Permi
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val m = channel.sendMessage("Are you sure you'd like to archive this channel? React with ✅ to confirm.").complete().apply { addReaction("✅").queue() }
         channel.expect<GuildMessageReactionAddEvent>({ it.messageId == m.id && it.user == message.author && it.reactionEmote.name == "✅" }, timeoutUnit = TimeUnit.MINUTES, timeout = 2, timeoutAction = { m.delete().queue() }) {
+            m.delete().queue()
             API.getUserByTag(config.owner)!!.openPrivateChannel().complete().run {
                 sendMessage("Which channel would you like to send the archive to?").complete()
-                val c = this.awaitMessages({ m -> m.mentionedChannels.isNotEmpty() }).first().mentionedChannels[0]
-                val msgs = gatherMessages(channel)
-                val tf = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
-                val output = msgs.joinToString("\n") { m ->
-                    "[${m.timeCreated.atZoneSameInstant(ZoneId.systemDefault()).format(tf)}]" +
-                            "${m.author.asTag}: ${m.contentRaw}"
+                LOGGER.debug("awaiting channel name")
+                API.expect<PrivateMessageReceivedEvent>({ e -> e.channel == this && API.getTextChannelsByName(e.message.contentRaw, true).isNotEmpty().also { LOGGER.debug("checked channel name") } }) { e ->
+                    val c = API.getTextChannelsByName(e.message.contentRaw, true).first()
+
+                    LOGGER.debug("received channel")
+                    val msgs = gatherMessages(channel)
+                    val tf = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+                    val output = msgs.joinToString("\n") { m ->
+                        "[${m.timeCreated.atZoneSameInstant(ZoneId.systemDefault()).format(tf)}]" +
+                                "${m.author.asTag}: ${m.contentRaw}"
+                    }
+                    val fileName = "${channel.name}-${OffsetDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE)}.txt"
+                    c.sendFile(output.toByteArray(), fileName).queue()
+                    channel.delete().queue()
                 }
-                val fileName = "${c.name}-${OffsetDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE)}.txt"
-                c.sendFile(output.toByteArray(), fileName).queue()
-                channel.delete().queue()
             }
         }
     }

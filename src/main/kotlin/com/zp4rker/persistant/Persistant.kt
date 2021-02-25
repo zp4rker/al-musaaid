@@ -4,29 +4,29 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
+import com.zp4rker.discore.API
+import com.zp4rker.discore.LOGGER
+import com.zp4rker.discore.bot
+import com.zp4rker.discore.extenstions.event.expect
+import com.zp4rker.discore.extenstions.event.expectBlocking
+import com.zp4rker.discore.extenstions.event.on
+import com.zp4rker.discore.util.loadYamlOrDefault
+import com.zp4rker.log4kt.Log4KtLoggerFactory
 import com.zp4rker.persistant.audio.AudioHandler
 import com.zp4rker.persistant.audio.TrackHandler
-import com.zp4rker.persistant.command.InfoCommand
-import com.zp4rker.persistant.command.PurgeCommand
-import com.zp4rker.persistant.command.audio.*
 import com.zp4rker.persistant.listener.Listeners
 import com.zp4rker.persistant.listener.trello.TrelloListeners
 import com.zp4rker.persistant.trello.DataServer
 import com.zp4rker.persistant.trello.TrelloApi
-import com.zp4rker.discore.API
-import com.zp4rker.discore.LOGGER
-import com.zp4rker.discore.bot
-import com.zp4rker.discore.extenstions.event.on
-import com.zp4rker.discore.util.loadYamlOrDefault
-import com.zp4rker.log4kt.Log4KtLoggerFactory
-import com.zp4rker.persistant.command.ArchiveCommand
-import com.zp4rker.persistant.command.NotifyCommand
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 import java.io.File
 import java.time.Instant
+import java.util.concurrent.Executors
 
 /**
  * @author zp4rker
@@ -76,21 +76,6 @@ fun main(args: Array<String>) {
         }
 
         cache = CacheFlag.values().asList()
-
-        commands = listOf(
-            // Misc commands
-            InfoCommand,
-            PurgeCommand,
-            ArchiveCommand,
-            NotifyCommand,
-            // Audio commands
-            QueueCommand,
-            PlayCommand,
-            PauseCommand,
-            ResumeCommand,
-            JumpCommand,
-            StopCommand
-        )
     }
 
     API.on<ReadyEvent> {
