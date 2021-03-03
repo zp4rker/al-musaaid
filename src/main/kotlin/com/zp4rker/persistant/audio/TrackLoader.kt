@@ -17,16 +17,18 @@ import java.util.concurrent.TimeUnit
 class TrackLoader(private val channel: TextChannel, private val requester: User) : AudioLoadResultHandler {
 
     override fun trackLoaded(track: AudioTrack) {
-        channel.sendMessage(embed {
-            title { text = "Added track to queue" }
+        if (!TSCHEDULER.getQueue().isNotEmpty()) {
+            channel.sendMessage(embed {
+                title { text = "Added track to queue" }
 
-            description = "```${track.info.title}```"
+                description = "```${track.info.title}```"
 
-            field {
-                title = "Duration"
-                text = translateMillis(track.duration)
-            }
-        }).queue()
+                field {
+                    title = "Duration"
+                    text = translateMillis(track.duration)
+                }
+            }).queue()
+        }
 
         val audioManager = channel.guild.audioManager
         if (audioManager.sendingHandler != AHANDLER) audioManager.sendingHandler = AHANDLER
