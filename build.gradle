@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.21'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.21'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.31'
 
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
@@ -14,7 +14,6 @@ def jdaVersion = "4.2.0_227"
 repositories {
     mavenCentral()
     jcenter()
-    mavenLocal()
 }
 
 dependencies {
