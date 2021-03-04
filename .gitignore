@@ -13,3 +13,6 @@ gradlew
 logs/
 config.yml
 run.sh
+.bashrc
+.sdkman/
+.zshrc
