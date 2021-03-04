@@ -60,16 +60,16 @@ object InfoCommand : Command(aliases = arrayOf("info")) {
         channel.sendMessage(embed).queue()
     }
 
-    private fun displayTime(seconds: Long): String {
-        var mutableSecs = seconds
-        val days = TimeUnit.SECONDS.toDays(mutableSecs).also { mutableSecs -= TimeUnit.DAYS.toMillis(it) }
-        val hours = TimeUnit.SECONDS.toHours(mutableSecs).also { mutableSecs -= TimeUnit.HOURS.toMillis(it) }
-        val minutes = TimeUnit.SECONDS.toMinutes(mutableSecs).also { mutableSecs -= TimeUnit.MINUTES.toMillis(it) }
+    private fun displayTime(totalSeconds: Long): String {
+        var seconds = totalSeconds
+        val days = TimeUnit.SECONDS.toDays(seconds).also { seconds -= TimeUnit.DAYS.toSeconds(it) }
+        val hours = TimeUnit.SECONDS.toHours(seconds).also { seconds -= TimeUnit.HOURS.toSeconds(it) }
+        val minutes = TimeUnit.SECONDS.toMinutes(seconds).also { seconds -= TimeUnit.MINUTES.toSeconds(it) }
         return StringBuilder().apply {
             if (days > 0) append("${days}d")
             if (hours > 0) append("${hours}d")
             if (minutes > 0) append("${minutes}m")
-            if (mutableSecs > 0) append("${mutableSecs}s")
+            if (seconds > 0) append("${seconds}s")
         }.toString()
     }
 }
