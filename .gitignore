@@ -12,3 +12,4 @@ gradlew
 # project #
 logs/
 config.yml
+run.sh
