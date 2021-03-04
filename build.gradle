@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '1.0.4'
+version '1.0.4-test'
 
 def discoreVersion = "2.0.4"
 def jdaVersion = "4.2.0_227"
