@@ -6,10 +6,10 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '1.0.4-test3'
+version '1.0.5'
 
-def discoreVersion = "2.0.4"
-def jdaVersion = "4.2.0_227"
+def discoreVersion = "2.0.5"
+def jdaVersion = "4.2.0_229"
 
 repositories {
     mavenCentral()
