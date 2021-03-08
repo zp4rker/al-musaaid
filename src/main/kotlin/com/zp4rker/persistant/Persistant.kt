@@ -83,10 +83,6 @@ fun main(args: Array<String>) {
 
         API.getUserByTag(config.owner)!!.openPrivateChannel().complete()
 
-        timer(period = TimeUnit.SECONDS.toMillis(20)) {
-            System.gc()
-        }
-
         LOGGER.info("Ready to serve!")
     }
 }
