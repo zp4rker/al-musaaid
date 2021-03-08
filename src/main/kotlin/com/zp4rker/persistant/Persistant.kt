@@ -62,15 +62,14 @@ fun main(args: Array<String>) {
         token = config.botSettings.token
         prefix = config.botSettings.prefix
 
-        activity = Activity.listening("your commands...")
+        activity = Activity.listening("my master")
 
-        intents = GatewayIntent.ALL_INTENTS
+        jdaBuilder.enableIntents(GatewayIntent.values().asList())
+        jdaBuilder.enableCache(CacheFlag.values().asList())
 
         quit = {
             dataServer.kill()
         }
-
-        cache = CacheFlag.values().asList()
     }
 
     API.expect<ReadyEvent> {
