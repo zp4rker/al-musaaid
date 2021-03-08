@@ -7,7 +7,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import com.zp4rker.discore.API
 import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.bot
-import com.zp4rker.discore.extenstions.event.on
+import com.zp4rker.discore.extenstions.event.expect
 import com.zp4rker.discore.util.loadYamlOrDefault
 import com.zp4rker.log4kt.Log4KtLoggerFactory
 import com.zp4rker.persistant.audio.AudioHandler
@@ -22,6 +22,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 import java.io.File
 import java.time.Instant
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.timer
 
 /**
  * @author zp4rker
@@ -73,13 +75,17 @@ fun main(args: Array<String>) {
         cache = CacheFlag.values().asList()
     }
 
-    API.on<ReadyEvent> {
+    API.expect<ReadyEvent> {
         dataServer.start()
 
         TrelloListeners.register()
         Listeners.register()
 
         API.getUserByTag(config.owner)!!.openPrivateChannel().complete()
+
+        timer(period = TimeUnit.SECONDS.toMillis(20)) {
+            System.gc()
+        }
 
         LOGGER.info("Ready to serve!")
     }
