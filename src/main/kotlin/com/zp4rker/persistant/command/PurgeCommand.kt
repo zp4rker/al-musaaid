@@ -46,7 +46,7 @@ object PurgeCommand :
         }
 
         channel.sendMessage(embed(author = author { name = "Purged $total message${if (total == 1) "" else "s"}." })).queue {
-            it.delete().queueAfter(5, TimeUnit.SECONDS)
+            runCatching { it.delete().queueAfter(5, TimeUnit.SECONDS) }
         }
     }
 

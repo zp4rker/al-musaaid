@@ -22,8 +22,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 import java.io.File
 import java.time.Instant
-import java.util.concurrent.TimeUnit
-import kotlin.concurrent.timer
 
 /**
  * @author zp4rker
