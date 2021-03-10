@@ -3,6 +3,7 @@ package com.zp4rker.persistant.command
 import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.command.Command
 import com.zp4rker.persistant.http.request
+import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 import java.util.*
@@ -12,7 +13,7 @@ import kotlin.concurrent.schedule
 /**
  * @author zp4rker
  */
-object Notify : Command(args = arrayOf(".*:.*:.*")) {
+object Notify : Command(args = arrayOf(".*:.*:.*"), permission = Permission.ADMINISTRATOR) {
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val base = "https://repo.maven.apache.org/maven2/"
         val module = args.first().split(":")

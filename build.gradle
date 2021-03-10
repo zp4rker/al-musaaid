@@ -22,10 +22,15 @@ dependencies {
     compile "net.dv8tion:JDA:$jdaVersion"
 
     compile "com.sedmelluq:lavaplayer:1.3.61"
+
+    compile "org.kohsuke:github-api:1.117"
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = 1.8
+    kotlinOptions {
+        jvmTarget = 1.8
+        useIR = true
+    }
 }
 
 jar {
