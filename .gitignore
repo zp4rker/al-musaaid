@@ -12,7 +12,4 @@ gradlew
 # project #
 logs/
 config.yml
-run.sh
-.bashrc
-.sdkman/
-.zshrc
+gh_cache.txt
