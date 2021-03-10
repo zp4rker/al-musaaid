@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
 /**
  * @author zp4rker
  */
-object ArchiveCommand : Command(aliases = arrayOf("archive"), permission = Permission.ADMINISTRATOR, autoDelete = true) {
+object Archive : Command(permission = Permission.ADMINISTRATOR, autoDelete = true) {
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val m = channel.sendMessage("Are you sure you'd like to archive this channel? React with ✅ to confirm.").complete().apply { addReaction("✅").queue() }
         channel.expect<GuildMessageReactionAddEvent>({ it.messageId == m.id && it.user == message.author && it.reactionEmote.name == "✅" }, timeoutUnit = TimeUnit.MINUTES, timeout = 2, timeoutAction = { m.delete().queue() }) {

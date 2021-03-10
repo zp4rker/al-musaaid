@@ -2,7 +2,6 @@ package com.zp4rker.persistant.command.audio
 
 import com.zp4rker.persistant.PLAYER
 import com.zp4rker.persistant.TSCHEDULER
-import com.zp4rker.persistant.audio.translateMillis
 import com.zp4rker.discore.command.Command
 import com.zp4rker.discore.extenstions.embed
 import net.dv8tion.jda.api.entities.Message
@@ -11,14 +10,14 @@ import net.dv8tion.jda.api.entities.TextChannel
 /**
  * @author zp4rker
  */
-object PauseCommand : Command(aliases = arrayOf("pause")) {
+object Stop : Command() {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
-        val track = PLAYER.playingTrack ?: run {
+        if (PLAYER.playingTrack == null) {
             channel.sendMessage(embed {
                 title { text = "No track playing right now!" }
 
-                description = "The player needs to be playing to be paused."
+                description = "No tracks playing to be stopped."
 
                 footer {
                     text = "Requested by ${message.author.name}"
@@ -30,31 +29,14 @@ object PauseCommand : Command(aliases = arrayOf("pause")) {
             return
         }
 
-        if (TSCHEDULER.paused) {
-            channel.sendMessage(embed {
-                title { text = "Track already paused!" }
-
-                description = "The player is not playing right now."
-
-                footer {
-                    text = "Requested by ${message.author.name}"
-                    iconUrl = message.author.effectiveAvatarUrl
-                }
-
-                color = "#ec644b"
-            }).queue()
-            return
-        }
-
-        TSCHEDULER.paused = true
+        PLAYER.stopTrack()
+        TSCHEDULER.clearQueue()
+        channel.guild.audioManager.closeAudioConnection()
 
         channel.sendMessage(embed {
-            title { text = "Paused player" }
+            title { text = "Stopped player" }
 
-            field {
-                title = "Current position"
-                text = "[${translateMillis(track.position)}/${translateMillis(track.duration)}]"
-            }
+            description = "Stopped player and cleared queue."
 
             footer {
                 text = "Requested by ${message.author.name}"

@@ -11,13 +11,13 @@ import java.util.concurrent.TimeUnit
 /**
  * @author zp4rker
  */
-object JumpCommand : Command(aliases = arrayOf("jump", "j"), args = arrayOf("")) {
+object Jump : Command(aliases = arrayOf("jump", "j"), args = arrayOf("")) {
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val track = PLAYER.playingTrack ?: run {
             channel.sendMessage(embed {
-                title { text = "No track paused right now!" }
+                title { text = "No track playing right now!" }
 
-                description = "The player needs to be playing to be resumed."
+                description = "The player needs to be playing."
 
                 footer {
                     text = "Requested by ${message.author.name}"

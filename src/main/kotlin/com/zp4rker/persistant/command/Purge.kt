@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 /**
  * @author zp4rker
  */
-object PurgeCommand :
+object Purge :
     Command(aliases = arrayOf("purge", "clear"), args = arrayOf("(?:all)|\\d+"), permission = Permission.MESSAGE_MANAGE) {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {

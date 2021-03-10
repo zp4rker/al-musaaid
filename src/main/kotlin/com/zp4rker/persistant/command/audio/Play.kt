@@ -1,7 +1,9 @@
 package com.zp4rker.persistant.command.audio
 
 import com.zp4rker.persistant.PLAYER
+import com.zp4rker.persistant.PMANAGER
 import com.zp4rker.persistant.TSCHEDULER
+import com.zp4rker.persistant.audio.TrackLoader
 import com.zp4rker.discore.command.Command
 import com.zp4rker.discore.extenstions.embed
 import net.dv8tion.jda.api.entities.Message
@@ -10,14 +12,16 @@ import net.dv8tion.jda.api.entities.TextChannel
 /**
  * @author zp4rker
  */
-object StopCommand : Command(aliases = arrayOf("stop")) {
+object Play : Command(aliases = arrayOf("play", "p"), args = arrayOf("")) {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
-        if (PLAYER.playingTrack == null) {
-            channel.sendMessage(embed {
-                title { text = "No track playing right now!" }
+        message.suppressEmbeds(true).queue()
 
-                description = "No tracks playing to be stopped."
+        if (TSCHEDULER.getQueue().any { it.track.info.uri == args[0] }) {
+            channel.sendMessage(embed {
+                title { text = "Track already in queue!" }
+
+                description = "```${args[0]}```"
 
                 footer {
                     text = "Requested by ${message.author.name}"
@@ -29,20 +33,7 @@ object StopCommand : Command(aliases = arrayOf("stop")) {
             return
         }
 
-        PLAYER.stopTrack()
-        TSCHEDULER.clearQueue()
-        channel.guild.audioManager.closeAudioConnection()
-
-        channel.sendMessage(embed {
-            title { text = "Stopped player" }
-
-            description = "Stopped player and cleared queue."
-
-            footer {
-                text = "Requested by ${message.author.name}"
-                iconUrl = message.author.effectiveAvatarUrl
-            }
-        }).queue()
+        PMANAGER.loadItemOrdered(PLAYER, args[0], TrackLoader(channel, message.author))
     }
 
 }

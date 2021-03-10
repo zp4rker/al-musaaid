@@ -11,7 +11,7 @@ import java.time.Instant
 /**
  * @author zp4rker
  */
-object QueueCommand : Command(aliases = arrayOf("queue", "q")) {
+object Queue : Command(aliases = arrayOf("queue", "q")) {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val trackList = TSCHEDULER.getQueue().map { it.track }

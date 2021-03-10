@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.TextChannel
 /**
  * @author zp4rker
  */
-object ResumeCommand : Command(aliases = arrayOf("resume")) {
+object Resume : Command() {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val track = PLAYER.playingTrack ?: run {

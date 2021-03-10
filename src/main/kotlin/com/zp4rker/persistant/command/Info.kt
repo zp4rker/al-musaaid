@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 /**
  * @author zp4rker
  */
-object InfoCommand : Command(aliases = arrayOf("info")) {
+object Info : Command() {
 
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val self = API.selfUser
@@ -31,7 +31,7 @@ object InfoCommand : Command(aliases = arrayOf("info")) {
 
             field {
                 title = "Version"
-                text = InfoCommand::class.java.`package`.implementationVersion
+                text = Info::class.java.`package`.implementationVersion
             }
 
             field {

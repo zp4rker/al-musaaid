@@ -12,7 +12,7 @@ import kotlin.concurrent.schedule
 /**
  * @author zp4rker
  */
-object NotifyCommand : Command(aliases = arrayOf("notify"), args = arrayOf(".*:.*:.*")) {
+object Notify : Command(args = arrayOf(".*:.*:.*")) {
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val base = "https://repo.maven.apache.org/maven2/"
         val module = args.first().split(":")

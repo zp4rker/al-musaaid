@@ -1,5 +1,6 @@
 package com.zp4rker.persistant.http
 
+import com.zp4rker.discore.MANIFEST
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
@@ -24,7 +25,7 @@ fun request(
     with(url.openConnection() as HttpURLConnection) {
         requestMethod = method.toUpperCase()
         headers.forEach { addRequestProperty(it.key, it.value) }
-        addRequestProperty("User-Agent", "Persistant;1.0")
+        addRequestProperty("User-Agent", "Persistant;${MANIFEST.getValue("Implementation-Version")}")
         content?.let {
             doOutput = true
             outputStream.use { os -> os.writer().use { wr -> wr.write(content) } }
