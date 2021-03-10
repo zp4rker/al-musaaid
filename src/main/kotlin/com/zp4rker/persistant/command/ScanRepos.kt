@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.TextChannel
  */
 object ScanRepos : Command(permission = Permission.ADMINISTRATOR) {
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
-        RepoTracker.scan()
+        message.addReaction("👍").complete()
+        RepoTracker.scan(channel)
     }
 }
