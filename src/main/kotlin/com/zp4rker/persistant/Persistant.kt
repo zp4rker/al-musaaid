@@ -19,6 +19,7 @@ import com.zp4rker.persistant.trello.TrelloApi
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
+import net.dv8tion.jda.api.utils.MemberCachePolicy
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 import java.io.File
 import java.time.Instant
@@ -66,6 +67,7 @@ fun main(args: Array<String>) {
 
         jdaBuilder.enableIntents(GatewayIntent.values().asList())
         jdaBuilder.enableCache(CacheFlag.values().asList())
+        jdaBuilder.setMemberCachePolicy(MemberCachePolicy.ALL)
 
         quit = {
             dataServer.kill()
