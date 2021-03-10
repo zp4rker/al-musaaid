@@ -40,7 +40,7 @@ lateinit var IdeaListId: String
 val startTime: Instant = Instant.now()
 
 fun main(args: Array<String>) {
-    if (args.any { it.equals("-debug", true) }) Log4KtLoggerFactory.debugEnabled = true
+    if (args.any { it.equals("--debug", true) }) Log4KtLoggerFactory.debugEnabled = true
 
     val trelloKey = config.trelloConf.key
     val trelloToken = config.trelloConf.token

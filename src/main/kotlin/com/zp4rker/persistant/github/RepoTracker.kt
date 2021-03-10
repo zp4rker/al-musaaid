@@ -1,5 +1,6 @@
 package com.zp4rker.persistant.github
 
+import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.extenstions.embed
 import com.zp4rker.persistant.config
 import net.dv8tion.jda.api.entities.TextChannel
@@ -23,8 +24,11 @@ object RepoTracker {
         for (repo in myself.listRepositories(100, GHMyself.RepositoryListFilter.OWNER)) {
             if (repo.isArchived || cache.has(repo)) continue
 
+            LOGGER.debug("Scanning ${repo.name}")
             repo.hooks.firstOrNull { it.config["url"] == config.github.webhook }?.let {
+                LOGGER.debug("Found hook")
                 if (!it.events.contains(GHEvent.CREATE)) {
+                    LOGGER.debug("Updating hook")
                     it.delete()
                     repo.createHook(
                         "web",
@@ -35,6 +39,7 @@ object RepoTracker {
                     updatedTracking++
                 }
             } ?: run {
+                LOGGER.debug("Adding hook")
                 repo.createHook(
                     "web",
                     mapOf("content_type" to "json", "url" to config.github.webhook, "insecure_ssl" to "0"),
@@ -46,6 +51,7 @@ object RepoTracker {
 
             cache.add(repo)
         }
+        cache.save()
 
         channel.sendMessage(embed {
             title {
@@ -63,6 +69,6 @@ object RepoTracker {
                 text = "$updatedTracking repositor${if (updatedTracking == 1) "y" else "ies"}"
                 inline = false
             }
-        })
+        }).queue()
     }
 }
