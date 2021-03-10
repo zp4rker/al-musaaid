@@ -67,7 +67,7 @@ object InfoCommand : Command(aliases = arrayOf("info")) {
         val minutes = TimeUnit.SECONDS.toMinutes(seconds).also { seconds -= TimeUnit.MINUTES.toSeconds(it) }
         return StringBuilder().apply {
             if (days > 0) append("${days}d")
-            if (hours > 0) append("${hours}d")
+            if (hours > 0) append("${hours}h")
             if (minutes > 0) append("${minutes}m")
             if (seconds > 0) append("${seconds}s")
         }.toString()
