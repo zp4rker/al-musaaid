@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.zp4rker'
-version '1.0.8'
+version '1.0.9'
 
 def discoreVersion = "2.3.0"
 
