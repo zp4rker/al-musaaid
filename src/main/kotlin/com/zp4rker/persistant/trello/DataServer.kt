@@ -2,8 +2,8 @@ package com.zp4rker.persistant.trello
 
 import com.zp4rker.persistant.Trello
 import com.zp4rker.discore.API
-import com.zp4rker.discore.extenstions.embed
-import com.zp4rker.discore.extenstions.getComplex
+import com.zp4rker.discore.extensions.embed
+import com.zp4rker.discore.extensions.getComplex
 import org.json.JSONObject
 import java.net.ServerSocket
 import java.time.OffsetDateTime

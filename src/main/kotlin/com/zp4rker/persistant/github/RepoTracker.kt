@@ -1,7 +1,7 @@
 package com.zp4rker.persistant.github
 
 import com.zp4rker.discore.LOGGER
-import com.zp4rker.discore.extenstions.embed
+import com.zp4rker.discore.extensions.embed
 import com.zp4rker.persistant.config
 import net.dv8tion.jda.api.entities.TextChannel
 import org.kohsuke.github.GHEvent

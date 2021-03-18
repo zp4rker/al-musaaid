@@ -3,7 +3,8 @@ package com.zp4rker.persistant.command
 import com.zp4rker.discore.API
 import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.command.Command
-import com.zp4rker.discore.extenstions.event.expect
+import com.zp4rker.discore.extensions.expect
+import com.zp4rker.discore.event.expect
 import com.zp4rker.persistant.config
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Message

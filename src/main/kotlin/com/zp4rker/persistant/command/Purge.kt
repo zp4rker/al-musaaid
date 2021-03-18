@@ -1,8 +1,8 @@
 package com.zp4rker.persistant.command
 
 import com.zp4rker.discore.command.Command
-import com.zp4rker.discore.extenstions.author
-import com.zp4rker.discore.extenstions.embed
+import com.zp4rker.discore.extensions.author
+import com.zp4rker.discore.extensions.embed
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
