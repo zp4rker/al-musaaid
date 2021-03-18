@@ -2,11 +2,12 @@ package com.zp4rker.persistant.command
 
 import com.zp4rker.persistant.startTime
 import com.zp4rker.discore.API
+import com.zp4rker.discore.DISCORE_VERSION
 import com.zp4rker.discore.LOGGER
-import com.zp4rker.discore.MANIFEST
 import com.zp4rker.discore.command.Command
-import com.zp4rker.discore.extenstions.embed
+import com.zp4rker.discore.extensions.embed
 import com.zp4rker.persistant.config
+import net.dv8tion.jda.api.JDAInfo
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 import java.lang.StringBuilder
@@ -36,12 +37,12 @@ object Info : Command() {
 
             field {
                 title = "Discore Version"
-                text = MANIFEST.getValue("Discore-Version")
+                text = DISCORE_VERSION
             }
 
             field {
                 title = "JDA Version"
-                text = MANIFEST.getValue("JDA-Version")
+                text = JDAInfo.VERSION
             }
 
             field {
@@ -65,11 +66,21 @@ object Info : Command() {
         val days = TimeUnit.SECONDS.toDays(seconds).also { seconds -= TimeUnit.DAYS.toSeconds(it) }
         val hours = TimeUnit.SECONDS.toHours(seconds).also { seconds -= TimeUnit.HOURS.toSeconds(it) }
         val minutes = TimeUnit.SECONDS.toMinutes(seconds).also { seconds -= TimeUnit.MINUTES.toSeconds(it) }
-        return StringBuilder().apply {
-            if (days > 0) append("${days}d")
-            if (hours > 0) append("${hours}h")
-            if (minutes > 0) append("${minutes}m")
-            if (seconds > 0) append("${seconds}s")
-        }.toString()
+
+        val sb = StringBuilder()
+        if (days > 0) sb.append("$days day${if (days == 1L) "" else "s"}")
+        if (sb.toString().isNotBlank()) {
+            if (minutes > 0 && seconds > 0) sb.append(", ") else sb.append(" and ")
+        }
+        if (hours > 0) sb.append("$hours hour${if (hours == 1L) "" else "s"}")
+        if (sb.toString().isNotBlank()) {
+            if (seconds > 0) sb.append(", ") else sb.append(" and ")
+        }
+        if (minutes > 0) sb.append("$minutes minute${if (minutes == 1L) "" else "s"}")
+        if (sb.toString().isNotBlank()) {
+            if (seconds > 0) sb.append(" and ")
+        }
+        if (seconds > 0) sb.append("$seconds second${if (seconds == 1L) "" else "s"}")
+        return sb.toString()
     }
 }
