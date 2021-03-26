@@ -50,6 +50,11 @@ object Info : Command() {
                 text = displayTime(runtime)
             }
 
+            field {
+                title = "Used Memory"
+                text = Runtime.getRuntime().let { "${"%.2f".format((it.totalMemory() - it.freeMemory()) / 1048576.0)}MB / ${"%.2f".format(it.totalMemory() / 1048576.0)}MB" }
+            }
+
             footer {
                 text = "Created by ${creator.asTag}"
                 iconUrl = creator.avatarUrl
