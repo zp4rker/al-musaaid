@@ -25,6 +25,7 @@ object Reminders {
     private val inRegex = Regex("remind me(?: to)? (.*) in (.*)")
     private val atRegex = Regex("remind me(?: to)? (.*) at (.*)")
     private val againRegex = Regex("remind me again in (.*)")
+    private val whenRegex = Regex("remind me when its (.*)")
     private val durationRegex = Regex("(\\d+[ ]?[^\\d^\\s^,]+)")
     private val timeRegex = Regex("(\\d{1,2})[:, ]?(\\d{1,2})")
 
@@ -35,6 +36,7 @@ object Reminders {
             if (!againRegex.matches(e.message.contentRaw)) {
                 if (inRegex.matches(e.message.contentRaw)) remindIn(e.message)
                 else if (atRegex.matches(e.message.contentRaw)) remindAt(e.message)
+                else if (whenRegex.matches(e.message.contentRaw)) remindWhen(e.message)
             }
         }
     }
@@ -81,6 +83,21 @@ object Reminders {
         if (time.isBefore(currentTime)) time = time.plusDays(1)
 
         remind(m, task, currentTime.until(time, ChronoUnit.MILLIS))
+    }
+
+    private fun remindWhen(m: Message) {
+        val matches = whenRegex.matchEntire(m.contentRaw)?.groupValues?.filter { it != m.contentRaw } ?: return
+        val timeRaw = matches[0]
+
+        val timeComponents = timeRegex.matchEntire(timeRaw)?.groupValues?.filter { it != m.contentRaw } ?: return
+
+        val hour = timeComponents[1].toInt()
+        val minute = timeComponents[2].toInt()
+
+        var time = OffsetDateTime.from(currentTime).withHour(hour).withMinute(minute)
+        if (time.isBefore(currentTime)) time = time.plusDays(1)
+
+        remind(m, "It's $timeRaw now!", currentTime.until(time, ChronoUnit.MILLIS))
     }
 
     private fun componentsToMillis(components: List<String>): Long {
