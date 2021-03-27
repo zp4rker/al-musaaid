@@ -79,7 +79,7 @@ object Reminders {
         val hour = timeComponents[1].toInt()
         val minute = timeComponents[2].toInt()
 
-        var time = OffsetDateTime.from(currentTime).withHour(hour).withMinute(minute)
+        var time = OffsetDateTime.from(currentTime).withHour(hour).withMinute(minute).withSecond(0).withNano(0)
         if (time.isBefore(currentTime)) time = time.plusDays(1)
 
         remind(m, task, currentTime.until(time, ChronoUnit.MILLIS))
@@ -94,7 +94,7 @@ object Reminders {
         val hour = timeComponents[1].toInt()
         val minute = timeComponents[2].toInt()
 
-        var time = OffsetDateTime.from(currentTime).withHour(hour).withMinute(minute)
+        var time = OffsetDateTime.from(currentTime).withHour(hour).withMinute(minute).withSecond(0).withNano(0)
         if (time.isBefore(currentTime)) time = time.plusDays(1)
 
         remind(m, "It's $timeRaw now!", currentTime.until(time, ChronoUnit.MILLIS))
@@ -106,13 +106,13 @@ object Reminders {
             val comp = rawComp.replace(" ", "")
             val amount = Regex("(\\d+)\\w+").matchEntire(comp)!!.groupValues[1].toLong()
             when {
-                comp.matches(Regex("\\d+(?:h(?:our[s]?)?)")) -> {
+                comp.matches(Regex("\\d+(?:h(?:our[s]?)?)", RegexOption.IGNORE_CASE)) -> {
                     millis += TimeUnit.HOURS.toMillis(amount)
                 }
-                comp.matches(Regex("\\d+(?:m(?:inute[s]?)?)")) -> {
+                comp.matches(Regex("\\d+(?:m(?:inute[s]?)?)", RegexOption.IGNORE_CASE)) -> {
                     millis += TimeUnit.MINUTES.toMillis(amount)
                 }
-                comp.matches(Regex("\\d+(?:s(?:econd[s]?)?)")) -> {
+                comp.matches(Regex("\\d+(?:s(?:econd[s]?)?)", RegexOption.IGNORE_CASE)) -> {
                     millis += TimeUnit.SECONDS.toMillis(amount)
                 }
             }
