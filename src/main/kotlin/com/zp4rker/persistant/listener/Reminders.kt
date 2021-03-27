@@ -20,7 +20,7 @@ import kotlin.concurrent.schedule
  */
 object Reminders {
 
-    private val currentTime: OffsetDateTime get() = OffsetDateTime.now(ZoneId.of("Australia/Sydney"))
+    private val currentTime: OffsetDateTime get() = OffsetDateTime.now(ZoneId.of(config.timezone))
 
     private val inRegex = Regex("(?:remind|tell) me(?: to)? (.*) in (.*)", RegexOption.IGNORE_CASE)
     private val atRegex = Regex("(?:remind|tell) me(?: to)? (.*) at (.*)", RegexOption.IGNORE_CASE)

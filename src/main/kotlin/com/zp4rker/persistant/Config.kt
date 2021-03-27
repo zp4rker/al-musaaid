@@ -11,7 +11,8 @@ data class Config(
     val owner: String = "zp4rker#3333",
     val github: GithubConf = GithubConf(),
     val botSettings: BotConfig = BotConfig(),
-    val trelloConf: TrelloConf = TrelloConf()
+    val trelloConf: TrelloConf = TrelloConf(),
+    val timezone: String = "Australia/Sydney"
 ) {
 
     @Serializable
