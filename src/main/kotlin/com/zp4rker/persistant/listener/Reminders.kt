@@ -22,12 +22,12 @@ object Reminders {
 
     private val currentTime: OffsetDateTime get() = OffsetDateTime.now(ZoneId.of("Australia/Sydney"))
 
-    private val inRegex = Regex("(?:remind|tell) me(?: to)? (.*) in (.*)")
-    private val atRegex = Regex("(?:remind|tell) me(?: to)? (.*) at (.*)")
-    private val againRegex = Regex("(?:remind|tell) me again in (.*)")
-    private val whenRegex = Regex("(?:remind|tell) me when its (.*)")
-    private val durationRegex = Regex("(\\d+[ ]?[^\\d^\\s^,]+)")
-    private val timeRegex = Regex("(\\d{1,2})[:, ]?(\\d{1,2})")
+    private val inRegex = Regex("(?:remind|tell) me(?: to)? (.*) in (.*)", RegexOption.IGNORE_CASE)
+    private val atRegex = Regex("(?:remind|tell) me(?: to)? (.*) at (.*)", RegexOption.IGNORE_CASE)
+    private val againRegex = Regex("(?:remind|tell) me again in (.*)", RegexOption.IGNORE_CASE)
+    private val whenRegex = Regex("(?:remind|tell) me when it[']?s (.*)", RegexOption.IGNORE_CASE)
+    private val durationRegex = Regex("(\\d+[ ]?[^\\d^\\s^,]+)", RegexOption.IGNORE_CASE)
+    private val timeRegex = Regex("(\\d{1,2})[:, ]?(\\d{1,2})", RegexOption.IGNORE_CASE)
 
     fun register() {
         API.on<MessageReceivedEvent> { e ->
