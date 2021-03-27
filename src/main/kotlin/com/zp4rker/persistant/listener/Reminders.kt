@@ -89,15 +89,22 @@ object Reminders {
         val matches = whenRegex.matchEntire(m.contentRaw)?.groupValues?.filter { it != m.contentRaw } ?: return
         val timeRaw = matches[0]
 
-        val timeComponents = timeRegex.matchEntire(timeRaw)?.groupValues?.filter { it != m.contentRaw } ?: return
+        if (timeRegex.matches(timeRaw)) {
+            val timeComponents = timeRegex.matchEntire(timeRaw)?.groupValues?.filter { it != m.contentRaw } ?: return
 
-        val hour = timeComponents[1].toInt()
-        val minute = timeComponents[2].toInt()
+            val hour = timeComponents[1].toInt()
+            val minute = timeComponents[2].toInt()
 
-        var time = OffsetDateTime.from(currentTime).withHour(hour).withMinute(minute).withSecond(0).withNano(0)
-        if (time.isBefore(currentTime)) time = time.plusDays(1)
+            var time = OffsetDateTime.from(currentTime).withHour(hour).withMinute(minute).withSecond(0).withNano(0)
+            if (time.isBefore(currentTime)) time = time.plusDays(1)
 
-        remind(m, "It's $timeRaw now!", currentTime.until(time, ChronoUnit.MILLIS))
+            remind(m, "It's $timeRaw now!", currentTime.until(time, ChronoUnit.MILLIS))
+        } else {
+            val timeComponents = durationRegex.findAll(timeRaw).toList().also { if (it.isEmpty()) return }.map { it.value }
+            val millis = componentsToMillis(timeComponents)
+
+            remind(m, "It's been $timeRaw!", millis)
+        }
     }
 
     private fun componentsToMillis(components: List<String>): Long {
