@@ -9,7 +9,6 @@ import java.nio.ByteBuffer
  * @author zp4rker
  */
 class AudioHandler : AudioSendHandler {
-
     private var frame: AudioFrame? = null
 
     override fun canProvide(): Boolean {
@@ -24,5 +23,4 @@ class AudioHandler : AudioSendHandler {
     override fun isOpus(): Boolean {
         return true
     }
-
 }
