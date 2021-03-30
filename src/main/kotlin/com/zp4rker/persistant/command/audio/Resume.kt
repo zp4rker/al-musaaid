@@ -1,10 +1,10 @@
 package com.zp4rker.persistant.command.audio
 
+import com.zp4rker.discore.command.Command
+import com.zp4rker.discore.extensions.embed
 import com.zp4rker.persistant.PLAYER
 import com.zp4rker.persistant.TSCHEDULER
 import com.zp4rker.persistant.audio.translateMillis
-import com.zp4rker.discore.command.Command
-import com.zp4rker.discore.extensions.embed
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 

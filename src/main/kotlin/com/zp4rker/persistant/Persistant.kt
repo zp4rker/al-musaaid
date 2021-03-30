@@ -8,12 +8,8 @@ import com.zp4rker.discore.API
 import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.bot
 import com.zp4rker.discore.event.expect
-import com.zp4rker.discore.extensions.nextMessage
-import com.zp4rker.discore.extensions.nextReaction
 import com.zp4rker.discore.util.loadYamlOrDefault
-import com.zp4rker.log4kt.Log4KtEventListener
 import com.zp4rker.log4kt.Log4KtLoggerFactory
-import com.zp4rker.log4kt.Log4KtPrepareLogEvent
 import com.zp4rker.persistant.audio.AudioHandler
 import com.zp4rker.persistant.audio.TrackHandler
 import com.zp4rker.persistant.listener.Listeners

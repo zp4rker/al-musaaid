@@ -1,16 +1,15 @@
 package com.zp4rker.persistant.command
 
-import com.zp4rker.persistant.startTime
 import com.zp4rker.discore.API
 import com.zp4rker.discore.DISCORE_VERSION
 import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.command.Command
 import com.zp4rker.discore.extensions.embed
 import com.zp4rker.persistant.config
+import com.zp4rker.persistant.startTime
 import net.dv8tion.jda.api.JDAInfo
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
-import java.lang.StringBuilder
 import java.time.Instant
 import java.util.concurrent.TimeUnit
 

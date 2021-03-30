@@ -3,8 +3,8 @@ package com.zp4rker.persistant.command
 import com.zp4rker.discore.API
 import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.command.Command
-import com.zp4rker.discore.extensions.expect
 import com.zp4rker.discore.event.expect
+import com.zp4rker.discore.extensions.expect
 import com.zp4rker.persistant.config
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Message
@@ -23,12 +23,18 @@ import java.util.concurrent.TimeUnit
 object Archive : Command(permission = Permission.ADMINISTRATOR, autoDelete = true) {
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         val m = channel.sendMessage("Are you sure you'd like to archive this channel? React with ✅ to confirm.").complete().apply { addReaction("✅").queue() }
-        channel.expect<GuildMessageReactionAddEvent>({ it.messageId == m.id && it.user == message.author && it.reactionEmote.name == "✅" }, timeoutUnit = TimeUnit.MINUTES, timeout = 2, timeoutAction = { m.delete().queue() }) {
+        channel.expect<GuildMessageReactionAddEvent>(
+            { it.messageId == m.id && it.user == message.author && it.reactionEmote.name == "✅" },
+            timeoutUnit = TimeUnit.MINUTES,
+            timeout = 2,
+            timeoutAction = { m.delete().queue() }) {
             m.delete().queue()
             API.getUserByTag(config.owner)!!.openPrivateChannel().complete().run {
                 sendMessage("Which channel would you like to send the archive to?").complete()
                 LOGGER.debug("awaiting channel name")
-                API.expect<PrivateMessageReceivedEvent>({ e -> e.channel == this && API.getTextChannelsByName(e.message.contentRaw, true).isNotEmpty().also { LOGGER.debug("checked channel name") } }) { e ->
+                API.expect<PrivateMessageReceivedEvent>({ e ->
+                    e.channel == this && API.getTextChannelsByName(e.message.contentRaw, true).isNotEmpty().also { LOGGER.debug("checked channel name") }
+                }) { e ->
                     val c = API.getTextChannelsByName(e.message.contentRaw, true).first()
 
                     LOGGER.debug("received channel")

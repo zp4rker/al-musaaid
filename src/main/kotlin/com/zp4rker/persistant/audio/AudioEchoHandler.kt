@@ -1,12 +1,5 @@
 package com.zp4rker.persistant.audio
 
-import com.zp4rker.discore.LOGGER
-import com.zp4rker.log4kt.Log4KtEventListener
-import com.zp4rker.log4kt.Log4KtLogEvent
-import com.zp4rker.log4kt.Log4KtPrepareLogEvent
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.audio.AudioReceiveHandler
 import net.dv8tion.jda.api.audio.AudioSendHandler
 import net.dv8tion.jda.api.audio.CombinedAudio

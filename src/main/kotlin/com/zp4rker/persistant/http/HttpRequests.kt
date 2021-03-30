@@ -16,7 +16,7 @@ fun request(
     content: String? = null
 ): String {
     val url = URL("$baseUrl${
-        if (parameters.isNotEmpty()) parameters.filter { it.value != null }.map { 
+        if (parameters.isNotEmpty()) parameters.filter { it.value != null }.map {
             "${it.key}=${it.value.toString().urlEncode()}"
         }.joinToString("&", "?") else ""
     }"
