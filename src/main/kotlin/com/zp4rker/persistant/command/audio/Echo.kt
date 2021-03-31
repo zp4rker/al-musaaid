@@ -2,7 +2,7 @@ package com.zp4rker.persistant.command.audio
 
 import com.zp4rker.discore.LOGGER
 import com.zp4rker.discore.command.Command
-import com.zp4rker.persistant.audio.AudioEchoHandler
+import com.zp4rker.persistant.audio.EchoHandler
 import com.zp4rker.persistant.config
 import net.dv8tion.jda.api.audio.hooks.ConnectionStatus
 import net.dv8tion.jda.api.entities.Message
@@ -20,7 +20,7 @@ object Echo : Command() {
         if (arg == "start") {
             val guild = message.guild
             val am = guild.audioManager
-            AudioEchoHandler().let {
+            EchoHandler().let {
                 am.receivingHandler = it
                 am.sendingHandler = it
             }

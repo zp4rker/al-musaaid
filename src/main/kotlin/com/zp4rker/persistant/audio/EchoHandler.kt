@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue
 /**
  * @author zp4rker
  */
-class AudioEchoHandler : AudioReceiveHandler, AudioSendHandler {
+class EchoHandler : AudioReceiveHandler, AudioSendHandler {
     private val queue = LinkedBlockingQueue<ByteArray>()
 
     private val toAdd = mutableListOf<ByteArray>()

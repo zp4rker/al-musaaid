@@ -8,7 +8,7 @@ import java.nio.ByteBuffer
 /**
  * @author zp4rker
  */
-class AudioHandler : AudioSendHandler {
+class PlayerHandler : AudioSendHandler {
     private var frame: AudioFrame? = null
 
     override fun canProvide(): Boolean {

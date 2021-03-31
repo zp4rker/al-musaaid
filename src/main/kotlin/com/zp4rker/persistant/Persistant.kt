@@ -10,7 +10,7 @@ import com.zp4rker.discore.bot
 import com.zp4rker.discore.event.expect
 import com.zp4rker.discore.util.loadYamlOrDefault
 import com.zp4rker.log4kt.Log4KtLoggerFactory
-import com.zp4rker.persistant.audio.AudioHandler
+import com.zp4rker.persistant.audio.PlayerHandler
 import com.zp4rker.persistant.audio.TrackHandler
 import com.zp4rker.persistant.listener.Listeners
 import com.zp4rker.persistant.listener.trello.TrelloListeners
@@ -32,7 +32,7 @@ val config = loadYamlOrDefault<Config>(File("config.yml"))
 lateinit var PLAYER: AudioPlayer
 lateinit var PMANAGER: AudioPlayerManager
 lateinit var TSCHEDULER: TrackHandler
-lateinit var AHANDLER: AudioHandler
+lateinit var AHANDLER: PlayerHandler
 
 lateinit var Trello: TrelloApi
 
@@ -55,7 +55,7 @@ fun main(args: Array<String>) {
     PMANAGER = DefaultAudioPlayerManager().also { AudioSourceManagers.registerRemoteSources(it) }
     PLAYER = PMANAGER.createPlayer()
     TSCHEDULER = TrackHandler()
-    AHANDLER = AudioHandler()
+    AHANDLER = PlayerHandler()
 
     bot {
         name = "persistant"
