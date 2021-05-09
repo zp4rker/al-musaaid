@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.4.31"
-    kotlin("plugin.serialization") version "1.4.31"
+    kotlin("jvm") version "1.5.0"
+    kotlin("plugin.serialization") version "1.5.0"
 
     id("com.github.johnrengelman.shadow") version "6.1.0"
 }
@@ -15,17 +15,10 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("com.zp4rker:discore:2.3.0")
+    implementation("com.zp4rker:discore:2.4.0")
     implementation("com.sedmelluq:lavaplayer:1.3.61")
     implementation("org.kohsuke:github-api:1.117")
     implementation("com.google.cloud:google-cloud-speech:1.26.0")
-}
-
-tasks.compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-        useIR = true
-    }
 }
 
 tasks.jar {

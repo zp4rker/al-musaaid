@@ -22,7 +22,7 @@ fun request(
     }"
     )
     with(url.openConnection() as HttpURLConnection) {
-        requestMethod = method.toUpperCase()
+        requestMethod = method.lowercase()
         headers.forEach { addRequestProperty(it.key, it.value) }
         addRequestProperty("User-Agent", "Persistant;${this::class.java.`package`.implementationVersion}")
         content?.let {

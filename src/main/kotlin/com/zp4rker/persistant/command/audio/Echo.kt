@@ -15,7 +15,7 @@ object Echo : Command() {
     override fun handle(args: Array<String>, message: Message, channel: TextChannel) {
         if (message.author.asTag != config.owner) return
 
-        val arg = args.getOrElse(0) { "" }.toLowerCase()
+        val arg = args.getOrElse(0) { "" }.lowercase()
         LOGGER.debug("arg is $arg")
         if (arg == "start") {
             val guild = message.guild
